@@ -111,7 +111,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			finish();
 	}
 
-	/** ���� */
+	/** 拍照 */
 	private void catchPicture() {
 		CommonUtils.launchActivityForResult(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
 	}
@@ -126,7 +126,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 	}
 
-	/** ��� */
+	/** 完成 */
 	private void ok() {
 		if (selected.isEmpty()) {
 			setResult(RESULT_CANCELED);
@@ -140,7 +140,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		finish();
 	}
 
-	/** Ԥ����Ƭ */
+	/** 预览照片 */
 	private void priview() {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("photos", selected);
@@ -155,24 +155,24 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 	}
 
-	/** ��������б� */
+	/** 弹出相册列表 */
 	private void popAlbum() {
 		layoutAlbum.setVisibility(View.VISIBLE);
 		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current).setLinearInterpolator().startAnimation(
 				layoutAlbum);
 	}
 
-	/** ��������б� */
+	/** 隐藏相册列表 */
 	private void hideAlbum() {
 		new AnimationUtil(getApplicationContext(), R.anim.translate_down).setLinearInterpolator().startAnimation(
 				layoutAlbum);
 		layoutAlbum.setVisibility(View.GONE);
 	}
 
-	/** ���ѡ�е�ͼƬ */
+	/** 清空选中的图片 */
 	private void reset() {
 		selected.clear();
-		tvPreview.setText("Ԥ��");
+		tvPreview.setText("预览");
 		tvPreview.setEnabled(false);
 	}
 

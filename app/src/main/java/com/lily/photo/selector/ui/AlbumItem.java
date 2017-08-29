@@ -35,12 +35,12 @@ public class AlbumItem extends LinearLayout {
 		this(context, attrs);
 	}
 
-	/** ���������� */
+	/** 设置相册封面 */
 	public void setAlbumImage(String path) {
 		ImageLoader.getInstance().displayImage("file://" + path, ivAlbum);
 	}
 
-	/** ��ʼ�� */
+	/** 初始化 */
 	public void update(AlbumModel album) {
 		setAlbumImage(album.getRecent());
 		setName(album.getName());
@@ -53,7 +53,7 @@ public class AlbumItem extends LinearLayout {
 	}
 
 	public void setCount(int count) {
-		tvCount.setHint(count + "��");
+		tvCount.setHint(count + "张");
 	}
 
 	public void isCheck(boolean isCheck) {
