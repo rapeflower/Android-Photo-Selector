@@ -25,12 +25,8 @@ hs_err_pid*
 Android-Photo-Selector.iml
 build/
 local.properties
-/local.properties
 /.idea/workspace.xml
 /.idea/vcs.xml
-/.idea/misc.xml
-/.idea/compiler.xml
-/.idea/gradle.xml
 .idea/modules.xml
 .idea/*
 .idea/compiler.xml
