@@ -40,7 +40,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	public static final String RECCENT_PHOTO = "最近照片";
 
 	private GridView gvPhotos;
-	private ListView lvAblum;
+	private ListView lvAlbum;
 	private Button btnOk;
 	private TextView tvAlbum, tvPreview, tvTitle;
 	private PhotoSelectorDomain photoSelectorDomain;
@@ -73,7 +73,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 		tvTitle = (TextView) findViewById(R.id.tv_title_lh);
 		gvPhotos = (GridView) findViewById(R.id.gv_photos_ar);
-		lvAblum = (ListView) findViewById(R.id.lv_ablum_ar);
+		lvAlbum = (ListView) findViewById(R.id.lv_ablum_ar);
 		btnOk = (Button) findViewById(R.id.btn_right_lh);
 		tvAlbum = (TextView) findViewById(R.id.tv_album_ar);
 		tvPreview = (TextView) findViewById(R.id.tv_preview_ar);
@@ -88,13 +88,13 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		gvPhotos.setAdapter(photoAdapter);
 
 		albumAdapter = new AlbumAdapter(getApplicationContext(), new ArrayList<AlbumModel>());
-		lvAblum.setAdapter(albumAdapter);
-		lvAblum.setOnItemClickListener(this);
+		lvAlbum.setAdapter(albumAdapter);
+		lvAlbum.setOnItemClickListener(this);
 
 		findViewById(R.id.bv_back_lh).setOnClickListener(this); //  返回
 
-		photoSelectorDomain.getReccent(reccentListener); //  更新最近照片
-		photoSelectorDomain.updateAlbum(albumListener); // 跟新相册信息
+		photoSelectorDomain.getRecentPhoto(recentListener); //  更新最近照片
+		photoSelectorDomain.getAlbums(albumListener); // 更新相册信息
 	}
 
 	@Override
@@ -231,9 +231,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 		// 更新照片列表
 		if (current.getName().equals(RECCENT_PHOTO))
-			photoSelectorDomain.getReccent(reccentListener);
+			photoSelectorDomain.getRecentPhoto(recentListener);
 		else
-			photoSelectorDomain.getAlbum(current.getName(), reccentListener); // 获取选中相册的照片
+			photoSelectorDomain.getAlbumPhoto(current.getName(), recentListener); // 获取选中相册的照片
 	}
 
 	/** 获取本地图库照片回调 */
@@ -253,11 +253,12 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 	};
 
-	private OnLocalRecentListener reccentListener = new OnLocalRecentListener() {
+	private OnLocalRecentListener recentListener = new OnLocalRecentListener() {
 		@Override
 		public void onPhotoLoaded(List<PhotoModel> photos) {
-			if (tvAlbum.getText().equals(RECCENT_PHOTO))
+			if (tvAlbum.getText().equals(RECCENT_PHOTO)) {
 				photos.add(0, new PhotoModel());
+			}
 			photoAdapter.update(photos);
 			gvPhotos.smoothScrollToPosition(0); // 滚动到顶端
 			reset();

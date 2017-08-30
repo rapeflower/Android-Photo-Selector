@@ -35,12 +35,20 @@ public class AlbumItem extends LinearLayout {
 		this(context, attrs);
 	}
 
-	/** 设置相册封面 */
+	/**
+	 * 设置相册封面
+	 *
+	 * @param path
+	 */
 	public void setAlbumImage(String path) {
 		ImageLoader.getInstance().displayImage("file://" + path, ivAlbum);
 	}
 
-	/** 初始化 */
+	/**
+	 * 更新"相册"信息
+	 *
+	 * @param album
+	 */
 	public void update(AlbumModel album) {
 		setAlbumImage(album.getRecent());
 		setName(album.getName());
@@ -57,10 +65,11 @@ public class AlbumItem extends LinearLayout {
 	}
 
 	public void isCheck(boolean isCheck) {
-		if (isCheck)
+		if (isCheck) {
 			ivIndex.setVisibility(View.VISIBLE);
-		else
+		} else {
 			ivIndex.setVisibility(View.GONE);
+		}
 	}
 
 }

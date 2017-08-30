@@ -21,11 +21,17 @@ public class PhotoSelectorDomain {
 		albumController = new AlbumController(context);
 	}
 
-	public void getReccent(final PhotoSelectorActivity.OnLocalRecentListener listener) {
+	/**
+	 * 获取最近照片列表
+	 *
+	 * @param listener
+	 */
+	public void getRecentPhoto(final PhotoSelectorActivity.OnLocalRecentListener listener) {
 		final Handler handler = new Handler() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handleMessage(Message msg) {
+				if (listener == null) return;
 				listener.onPhotoLoaded((List<PhotoModel>) msg.obj);
 			}
 		};
@@ -40,12 +46,17 @@ public class PhotoSelectorDomain {
 		}).start();
 	}
 
-	/** 获取相册列表 */
-	public void updateAlbum(final PhotoSelectorActivity.OnLocalAlbumListener listener) {
+	/**
+	 * 获取相册列表
+	 *
+	 * @param listener
+	 */
+	public void getAlbums(final PhotoSelectorActivity.OnLocalAlbumListener listener) {
 		final Handler handler = new Handler() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handleMessage(Message msg) {
+				if (listener == null) return;
 				listener.onAlbumLoaded((List<AlbumModel>) msg.obj);
 			}
 		};
@@ -60,19 +71,25 @@ public class PhotoSelectorDomain {
 		}).start();
 	}
 
-	/** 获取单个相册下的所有照片信息 */
-	public void getAlbum(final String name, final PhotoSelectorActivity.OnLocalRecentListener listener) {
+	/**
+	 * 获取单个相册下的所有照片信息
+	 *
+	 * @param name 相册名称
+	 * @param listener
+	 */
+	public void getAlbumPhoto(final String name, final PhotoSelectorActivity.OnLocalRecentListener listener) {
 		final Handler handler = new Handler() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handleMessage(Message msg) {
+				if (listener == null) return;
 				listener.onPhotoLoaded((List<PhotoModel>) msg.obj);
 			}
 		};
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				List<PhotoModel> photos = albumController.getAlbum(name);
+				List<PhotoModel> photos = albumController.getAlbumPhoto(name);
 				Message msg = new Message();
 				msg.obj = photos;
 				handler.sendMessage(msg);

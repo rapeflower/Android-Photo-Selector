@@ -35,9 +35,9 @@ public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements Ph
 			String albumName = extras.getString("album"); // 相册
 			this.current = extras.getInt("position");
 			if (!CommonUtils.isNull(albumName) && albumName.equals(PhotoSelectorActivity.RECCENT_PHOTO)) {
-				photoSelectorDomain.getReccent(this);
+				photoSelectorDomain.getRecentPhoto(this);
 			} else {
-				photoSelectorDomain.getAlbum(albumName, this);
+				photoSelectorDomain.getAlbumPhoto(albumName, this);
 			}
 		}
 	}

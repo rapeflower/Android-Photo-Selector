@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 
 	private int itemWidth;
-	private int horizentalNum = 3;
+	private int horizontalNum = 3;
 	private onPhotoItemCheckedListener listener;
 	private LayoutParams itemLayoutParams;
 	private onItemClickListener mCallback;
@@ -40,8 +40,8 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 
 	/** 设置每一个Item的宽高 */
 	public void setItemWidth(int screenWidth) {
-		int horizentalSpace = context.getResources().getDimensionPixelSize(R.dimen.sticky_item_horizontalSpacing);
-		this.itemWidth = (screenWidth - (horizentalSpace * (horizentalNum - 1))) / horizentalNum;
+		int horizontalSpace = context.getResources().getDimensionPixelSize(R.dimen.sticky_item_horizontalSpacing);
+		this.itemWidth = (screenWidth - (horizontalSpace * (horizontalNum - 1))) / horizontalNum;
 		this.itemLayoutParams = new LayoutParams(itemWidth, itemWidth);
 	}
 

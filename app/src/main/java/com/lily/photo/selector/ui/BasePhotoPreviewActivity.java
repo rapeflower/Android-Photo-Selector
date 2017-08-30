@@ -46,7 +46,9 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 
 	}
 
-    /** 绑定数据，更新界面 */
+	/**
+	 * 绑定数据，更新界面
+	 */
 	protected void bindData() {
 		mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(current);
@@ -111,7 +113,9 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		tvPercent.setText((current + 1) + "/" + photos.size());
 	}
 
-    /** 图片点击事件回调 */
+	/**
+	 * 图片点击事件回调
+	 */
 	private OnClickListener photoItemClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

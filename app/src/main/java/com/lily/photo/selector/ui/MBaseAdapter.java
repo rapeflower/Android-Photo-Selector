@@ -44,7 +44,11 @@ public class MBaseAdapter<T> extends BaseAdapter {
 		return null;
 	}
 
-	/** 更新数据 */
+	/**
+	 * 更新数据
+	 *
+	 * @param models
+	 */
 	public void update(List<T> models) {
 		if (models == null)
 			return;
