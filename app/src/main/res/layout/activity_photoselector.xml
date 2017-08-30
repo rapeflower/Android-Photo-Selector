@@ -51,16 +51,12 @@
 
         <Button
             android:id="@+id/btn_right_lh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/btn_green_selector_rectangle"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
             android:text="确定"
             android:textColor="@android:color/white"
             android:textSize="@dimen/layout_title_mini_textsize" />

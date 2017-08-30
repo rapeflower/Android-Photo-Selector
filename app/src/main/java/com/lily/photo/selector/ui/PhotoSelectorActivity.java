@@ -104,14 +104,16 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		else if (v.getId() == R.id.tv_album_ar)
 			album();
 		else if (v.getId() == R.id.tv_preview_ar)
-			priview();
+			preview();
 		else if (v.getId() == R.id.tv_camera_vc)
 			catchPicture();
 		else if (v.getId() == R.id.bv_back_lh)
 			finish();
 	}
 
-	/** 拍照 */
+	/**
+	 * 拍照
+	 */
 	private void catchPicture() {
 		CommonUtil.launchActivityForResult(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
 	}
@@ -126,7 +128,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 	}
 
-	/** 完成 */
+	/**
+	 * 完成
+	 */
 	private void ok() {
 		if (selected.isEmpty()) {
 			setResult(RESULT_CANCELED);
@@ -140,8 +144,10 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		finish();
 	}
 
-	/** 预览照片 */
-	private void priview() {
+	/**
+	 * 预览照片
+	 */
+	private void preview() {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("photos", selected);
 		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
@@ -155,28 +161,38 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 	}
 
-	/** 弹出相册列表 */
+	/**
+	 * 弹出相册列表
+	 */
 	private void popAlbum() {
 		layoutAlbum.setVisibility(View.VISIBLE);
 		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current).setLinearInterpolator().startAnimation(
 				layoutAlbum);
 	}
 
-	/** 隐藏相册列表 */
+	/**
+	 * 隐藏相册列表
+	 */
 	private void hideAlbum() {
 		new AnimationUtil(getApplicationContext(), R.anim.translate_down).setLinearInterpolator().startAnimation(
 				layoutAlbum);
 		layoutAlbum.setVisibility(View.GONE);
 	}
 
-	/** 清空选中的图片 */
+	/**
+	 * 清空选中的图片
+	 */
 	private void reset() {
 		selected.clear();
 		tvPreview.setText("预览");
 		tvPreview.setEnabled(false);
 	}
 
-	/** 点击查看照片 */
+	/**
+	 * 点击查看照片
+	 *
+	 * @param position
+	 */
 	@Override
 	public void onItemClick(int position) {
 		Bundle bundle = new Bundle();
@@ -188,7 +204,13 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
 	}
 
-	/** 照片选中状态改变之后 */
+	/**
+	 * 照片选中状态改变之后
+	 *
+	 * @param photoModel
+	 * @param buttonView
+	 * @param isChecked
+	 */
 	@Override
 	public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
@@ -213,7 +235,14 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			super.onBackPressed();
 	}
 
-	/** 相册列表点击事件 */
+	/**
+	 * 相册列表点击事件
+	 *
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		AlbumModel current = (AlbumModel) parent.getItemAtPosition(position);
@@ -236,12 +265,16 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			photoSelectorDomain.getAlbumPhoto(current.getName(), recentListener); // 获取选中相册的照片
 	}
 
-	/** 获取本地图库照片回调 */
+	/**
+	 * 获取本地图库照片回调
+	 */
 	public interface OnLocalRecentListener {
 		public void onPhotoLoaded(List<PhotoModel> photos);
 	}
 
-	/** 获取本地相册信息回调 */
+	/**
+	 * 获取本地相册信息回调
+	 */
 	public interface OnLocalAlbumListener {
 		public void onAlbumLoaded(List<AlbumModel> albums);
 	}
