@@ -96,9 +96,21 @@ public class CommonUtil {
 
 	/** 通过Uri获取图片路径 */
 	public static String query(Context context, Uri uri) {
-		Cursor cursor = context.getContentResolver().query(uri, new String[] { ImageColumns.DATA }, null, null, null);
-		cursor.moveToNext();
-		return cursor.getString(cursor.getColumnIndex(ImageColumns.DATA));
+		String path = "";
+		Cursor cursor = null;
+		try {
+			cursor = context.getContentResolver().query(uri, new String[] { ImageColumns.DATA }, null, null, null);
+			cursor.moveToNext();
+			path = cursor.getString(cursor.getColumnIndex(ImageColumns.DATA));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+
+		return path;
 	}
 
 }
