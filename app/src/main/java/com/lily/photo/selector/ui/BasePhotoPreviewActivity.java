@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.util.AnimationUtil;
+import com.lily.photo.selector.utils.AnimationUtil;
 
 import java.util.List;
 

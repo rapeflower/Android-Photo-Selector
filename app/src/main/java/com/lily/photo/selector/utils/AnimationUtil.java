@@ -1,4 +1,4 @@
-package com.lily.photo.selector.util;
+package com.lily.photo.selector.utils;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;

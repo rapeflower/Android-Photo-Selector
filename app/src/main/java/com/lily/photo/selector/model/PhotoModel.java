@@ -9,17 +9,16 @@ public class PhotoModel implements Serializable {
 	private String originalPath;
 	private boolean isChecked;
 
-	public PhotoModel(String originalPath, boolean isChecked) {
-		super();
-		this.originalPath = originalPath;
-		this.isChecked = isChecked;
+	public PhotoModel() {
 	}
 
 	public PhotoModel(String originalPath) {
 		this.originalPath = originalPath;
 	}
 
-	public PhotoModel() {
+	public PhotoModel(String originalPath, boolean isChecked) {
+		this.originalPath = originalPath;
+		this.isChecked = isChecked;
 	}
 
 	public String getOriginalPath() {

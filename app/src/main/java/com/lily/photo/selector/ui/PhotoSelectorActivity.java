@@ -17,11 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lily.photo.selector.R;
-import com.lily.photo.selector.domain.PhotoSelectorDomain;
+import com.lily.photo.selector.manager.PhotoSelectorManager;
 import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.util.AnimationUtil;
-import com.lily.photo.selector.util.CommonUtils;
+import com.lily.photo.selector.utils.AnimationUtil;
+import com.lily.photo.selector.utils.CommonUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -43,7 +43,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private ListView lvAlbum;
 	private Button btnOk;
 	private TextView tvAlbum, tvPreview, tvTitle;
-	private PhotoSelectorDomain photoSelectorDomain;
+	private PhotoSelectorManager photoSelectorDomain;
 	private PhotoSelectorAdapter photoAdapter;
 	private AlbumAdapter albumAdapter;
 	private RelativeLayout layoutAlbum;
@@ -67,7 +67,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 				.threadPoolSize(5).build();
 		ImageLoader.getInstance().init(config);
 
-		photoSelectorDomain = new PhotoSelectorDomain(getApplicationContext());
+		photoSelectorDomain = new PhotoSelectorManager(getApplicationContext());
 
 		selected = new ArrayList<PhotoModel>();
 
@@ -84,7 +84,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		tvPreview.setOnClickListener(this);
 
 		photoAdapter = new PhotoSelectorAdapter(getApplicationContext(), new ArrayList<PhotoModel>(),
-				CommonUtils.getWidthPixels(this), this, this, this);
+				CommonUtil.getWidthPixels(this), this, this, this);
 		gvPhotos.setAdapter(photoAdapter);
 
 		albumAdapter = new AlbumAdapter(getApplicationContext(), new ArrayList<AlbumModel>());
@@ -113,13 +113,13 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 	/** 拍照 */
 	private void catchPicture() {
-		CommonUtils.launchActivityForResult(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
+		CommonUtil.launchActivityForResult(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
-			PhotoModel photoModel = new PhotoModel(CommonUtils.query(getApplicationContext(), data.getData()));
+			PhotoModel photoModel = new PhotoModel(CommonUtil.query(getApplicationContext(), data.getData()));
 			selected.clear();
 			selected.add(photoModel);
 			ok();
@@ -144,7 +144,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private void priview() {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("photos", selected);
-		CommonUtils.launchActivity(this, PhotoPreviewActivity.class, bundle);
+		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
 	}
 
 	private void album() {
@@ -185,7 +185,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		else
 			bundle.putInt("position", position);
 		bundle.putString("album", tvAlbum.getText().toString());
-		CommonUtils.launchActivity(this, PhotoPreviewActivity.class, bundle);
+		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
 	}
 
 	/** 照片选中状态改变之后 */

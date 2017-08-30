@@ -1,11 +1,10 @@
-package com.lily.photo.selector.domain;
+package com.lily.photo.selector.manager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lily.photo.selector.controller.AlbumController;
 import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.ui.PhotoSelectorActivity;
@@ -13,12 +12,12 @@ import com.lily.photo.selector.ui.PhotoSelectorActivity;
 import java.util.List;
 
 @SuppressLint("HandlerLeak")
-public class PhotoSelectorDomain {
+public class PhotoSelectorManager {
 
-	private AlbumController albumController;
+	private AlbumManager albumManager;
 
-	public PhotoSelectorDomain(Context context) {
-		albumController = new AlbumController(context);
+	public PhotoSelectorManager(Context context) {
+		albumManager = new AlbumManager(context);
 	}
 
 	/**
@@ -38,7 +37,7 @@ public class PhotoSelectorDomain {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				List<PhotoModel> photos = albumController.getCurrent();
+				List<PhotoModel> photos = albumManager.getCurrent();
 				Message msg = new Message();
 				msg.obj = photos;
 				handler.sendMessage(msg);
@@ -63,7 +62,7 @@ public class PhotoSelectorDomain {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				List<AlbumModel> albums = albumController.getAlbums();
+				List<AlbumModel> albums = albumManager.getAlbums();
 				Message msg = new Message();
 				msg.obj = albums;
 				handler.sendMessage(msg);
@@ -89,7 +88,7 @@ public class PhotoSelectorDomain {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				List<PhotoModel> photos = albumController.getAlbumPhoto(name);
+				List<PhotoModel> photos = albumManager.getAlbumPhoto(name);
 				Message msg = new Message();
 				msg.obj = photos;
 				handler.sendMessage(msg);

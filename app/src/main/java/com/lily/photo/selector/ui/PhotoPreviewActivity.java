@@ -2,22 +2,21 @@ package com.lily.photo.selector.ui;
 
 import android.os.Bundle;
 
-import com.lily.photo.selector.domain.PhotoSelectorDomain;
+import com.lily.photo.selector.manager.PhotoSelectorManager;
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.util.CommonUtils;
+import com.lily.photo.selector.utils.CommonUtil;
 
 import java.util.List;
 
 public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements PhotoSelectorActivity.OnLocalRecentListener {
 
-	private PhotoSelectorDomain photoSelectorDomain;
+	private PhotoSelectorManager photoSelectorManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		photoSelectorDomain = new PhotoSelectorDomain(getApplicationContext());
-
+		photoSelectorManager = new PhotoSelectorManager(getApplicationContext());
 		init(getIntent().getExtras());
 	}
 
@@ -34,10 +33,10 @@ public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements Ph
 		} else if (extras.containsKey("album")) { // 点击图片查看
 			String albumName = extras.getString("album"); // 相册
 			this.current = extras.getInt("position");
-			if (!CommonUtils.isNull(albumName) && albumName.equals(PhotoSelectorActivity.RECCENT_PHOTO)) {
-				photoSelectorDomain.getRecentPhoto(this);
+			if (!CommonUtil.isNull(albumName) && albumName.equals(PhotoSelectorActivity.RECCENT_PHOTO)) {
+				photoSelectorManager.getRecentPhoto(this);
 			} else {
-				photoSelectorDomain.getAlbumPhoto(albumName, this);
+				photoSelectorManager.getAlbumPhoto(albumName, this);
 			}
 		}
 	}

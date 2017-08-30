@@ -1,4 +1,4 @@
-package com.lily.photo.selector.util;
+package com.lily.photo.selector.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.util.DisplayMetrics;
 /**
  * 通用工具类
  */
-public class CommonUtils {
+public class CommonUtil {
 
 	/**
 	 * 开启activity

@@ -1,4 +1,4 @@
-package com.lily.photo.selector.controller;
+package com.lily.photo.selector.manager;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -14,11 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AlbumController {
+public class AlbumManager {
 
 	private ContentResolver resolver;
 
-	public AlbumController(Context context) {
+	public AlbumManager(Context context) {
 		resolver = context.getContentResolver();
 	}
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.util.CommonUtils;
+import com.lily.photo.selector.utils.CommonUtil;
 import com.lily.photo.selector.ui.PhotoItem.onPhotoItemCheckedListener;
 import com.lily.photo.selector.ui.PhotoItem.onItemClickListener;
 
@@ -49,7 +49,7 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		PhotoItem item = null;
 		TextView tvCamera = null;
-		if (position == 0 && CommonUtils.isNull(models.get(position).getOriginalPath())) { // 当时第一个时，显示按钮
+		if (position == 0 && CommonUtil.isNull(models.get(position).getOriginalPath())) { // 当时第一个时，显示按钮
 			if (convertView == null || !(convertView instanceof TextView)) {
 				tvCamera = (TextView) LayoutInflater.from(context).inflate(R.layout.view_camera, null);
 				tvCamera.setHeight(itemWidth);
