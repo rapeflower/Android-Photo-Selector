@@ -75,7 +75,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 		tvTitle = (TextView) findViewById(R.id.tv_title_lh);
 		gvPhotos = (GridView) findViewById(R.id.gv_photos_ar);
-		lvAlbum = (ListView) findViewById(R.id.lv_ablum_ar);
+		lvAlbum = (ListView) findViewById(R.id.lv_album_ar);
 		btnOk = (Button) findViewById(R.id.btn_right_lh);
 		tvAlbum = (TextView) findViewById(R.id.tv_album_ar);
 		tvPreview = (TextView) findViewById(R.id.tv_preview_ar);
