@@ -41,7 +41,7 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		mViewPager = (ViewPager) findViewById(R.id.vp_base_app);
 
 		btnBack.setOnClickListener(this);
-		mViewPager.setOnPageChangeListener(this);
+		mViewPager.addOnPageChangeListener(this);
 
 		overridePendingTransition(R.anim.activity_alpha_action_in, 0);// 渐入效果
 
@@ -131,4 +131,12 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 			}
 		}
 	};
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mViewPager != null) {
+			mViewPager.removeOnPageChangeListener(this);
+		}
+	}
 }
