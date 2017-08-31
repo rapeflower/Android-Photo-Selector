@@ -1,4 +1,4 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.adapter;
 
 import android.content.Context;
 import android.view.View;

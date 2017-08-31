@@ -1,4 +1,4 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.utils.AnimationUtil;
+import com.lily.photo.selector.view.PhotoPreview;
 
 import java.util.List;
 

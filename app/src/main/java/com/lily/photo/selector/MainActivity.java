@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.ui.PhotoSelectorActivity;
+import com.lily.photo.selector.activity.PhotoSelectorActivity;
 import com.lily.photo.selector.utils.CommonUtil;
 
 import java.util.List;

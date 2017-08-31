@@ -1,10 +1,11 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lily.photo.selector.model.AlbumModel;
+import com.lily.photo.selector.view.AlbumItem;
 
 import java.util.ArrayList;
 

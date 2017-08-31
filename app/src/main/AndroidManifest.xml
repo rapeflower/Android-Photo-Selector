@@ -22,17 +22,17 @@
         </activity>
 
         <activity
-            android:name=".ui.PhotoSelectorActivity"
+            android:name=".activity.PhotoSelectorActivity"
             android:label="图片选择" >
         </activity>
 
         <activity
-            android:name=".ui.PhotoPreviewActivity"
+            android:name=".activity.PhotoPreviewActivity"
             android:label="图片预览" >
         </activity>
 
         <activity
-            android:name=".ui.BasePhotoPreviewActivity"
+            android:name=".activity.BasePhotoPreviewActivity"
             android:label="点击图片" >
         </activity>
     </application>

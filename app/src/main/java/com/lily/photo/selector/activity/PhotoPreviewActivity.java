@@ -1,4 +1,4 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.activity;
 
 import android.os.Bundle;
 

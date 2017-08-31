@@ -1,4 +1,4 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.view;
 
 import android.content.Context;
 import android.graphics.Color;

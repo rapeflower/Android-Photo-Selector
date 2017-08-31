@@ -1,4 +1,4 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.TextView;
 
 import com.lily.photo.selector.R;
+import com.lily.photo.selector.adapter.MBaseAdapter;
 import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.utils.CommonUtil;
-import com.lily.photo.selector.ui.PhotoItem.onPhotoItemCheckedListener;
-import com.lily.photo.selector.ui.PhotoItem.onItemClickListener;
+import com.lily.photo.selector.view.PhotoItem;
+import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
+import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
 
 import java.util.ArrayList;
 

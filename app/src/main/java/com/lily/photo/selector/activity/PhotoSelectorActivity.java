@@ -1,4 +1,4 @@
-package com.lily.photo.selector.ui;
+package com.lily.photo.selector.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lily.photo.selector.R;
+import com.lily.photo.selector.adapter.AlbumAdapter;
+import com.lily.photo.selector.adapter.PhotoSelectorAdapter;
 import com.lily.photo.selector.manager.PhotoSelectorManager;
 import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
@@ -25,8 +27,8 @@ import com.lily.photo.selector.utils.CommonUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.lily.photo.selector.ui.PhotoItem.onPhotoItemCheckedListener;
-import com.lily.photo.selector.ui.PhotoItem.onItemClickListener;
+import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
+import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,7 +7,7 @@ import android.os.Message;
 
 import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.ui.PhotoSelectorActivity;
+import com.lily.photo.selector.activity.PhotoSelectorActivity;
 
 import java.util.List;
 
