@@ -203,8 +203,12 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	@Override
 	public void onItemClick(int position) {
 		if (selected.size() >= 9)  {
-			Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
-			return;
+			if (photoData == null || photoData.size() == 0) return;
+			PhotoModel pm = photoData.get(position);
+			if (pm != null && !pm.isEnabled()) {
+				Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
+				return;
+			}
 		}
 		Bundle bundle = new Bundle();
 		if (tvAlbum.getText().toString().equals(RECENT_PHOTO)) {
