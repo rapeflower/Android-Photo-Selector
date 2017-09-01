@@ -53,6 +53,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private RelativeLayout layoutAlbum;
 	private ArrayList<PhotoModel> photoData;
 	private ArrayList<PhotoModel> selected;
+	private int maxSelectable = 9;//图片选择的最多数量，默认是9张
 	private boolean isReset = false;
 
 	@Override
@@ -202,7 +203,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 */
 	@Override
 	public void onItemClick(int position) {
-		if (selected.size() >= 9)  {
+		if (selected.size() >= maxSelectable)  {
 			if (photoData == null || photoData.size() == 0) return;
 			PhotoModel pm = photoData.get(position);
 			if (pm != null && !pm.isEnabled()) {
@@ -242,7 +243,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			tvPreview.setText("预览");
 		}
 
-		if (selected.size() >= 9) {
+		if (selected.size() >= maxSelectable) {
             if (photoData == null || photoData.size() == 0) return;
 			isReset = true;
 
@@ -310,6 +311,15 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			photoSelectorDomain.getRecentPhoto(recentListener);
 		else
 			photoSelectorDomain.getAlbumPhoto(current.getName(), recentListener); // 获取选中相册的照片
+	}
+
+	/**
+	 * 设置最多可选择图片的数量
+	 *
+	 * @param maxSelectable
+	 */
+	public void setMaxSelectable(int maxSelectable) {
+		this.maxSelectable = maxSelectable;
 	}
 
 	/**

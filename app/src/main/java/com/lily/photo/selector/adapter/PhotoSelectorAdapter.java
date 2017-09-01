@@ -21,8 +21,6 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 
 	private int itemWidth;
 	private int horizontalNum = 3;
-	private int maxSelectable = 9;//图片选择的最多数量，默认是9张
-	private int currentSelectNum = 0;//当前选中的图片数量
 	private onPhotoItemCheckedListener listener;
 	private LayoutParams itemLayoutParams;
 	private onItemClickListener mCallback;
@@ -50,24 +48,6 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 		int horizontalSpace = context.getResources().getDimensionPixelSize(R.dimen.sticky_item_horizontalSpacing);
 		this.itemWidth = (screenWidth - (horizontalSpace * (horizontalNum - 1))) / horizontalNum;
 		this.itemLayoutParams = new LayoutParams(itemWidth, itemWidth);
-	}
-
-	/**
-	 * 设置最多可选择图片的数量
-	 *
-	 * @param maxSelectable
-	 */
-	public void setMaxSelectable(int maxSelectable) {
-		this.maxSelectable = maxSelectable;
-	}
-
-	/**
-	 * 当前选中的图片数量
-	 *
-	 * @param currentSelectNum
-	 */
-	public void setCurrentSelectNum(int currentSelectNum) {
-		this.currentSelectNum = currentSelectNum;
 	}
 
 	@Override
