@@ -52,7 +52,7 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		}
 		// 让图片变暗或者变亮
 		if (isChecked) {
-			setDrawingable();
+			setDrawingEnable();
 			ivPhoto.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 		} else {
 			ivPhoto.clearColorFilter();
@@ -60,7 +60,11 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		photo.setChecked(isChecked);
 	}
 
-	/** 设置路径下的图片对应的缩略图 */
+	/**
+	 * 设置路径下的图片对应的缩略图
+	 *
+	 * @param photo
+	 */
 	public void setImageDrawable(final PhotoModel photo) {
 		this.photo = photo;
 		new Handler().postDelayed(new Runnable() {
@@ -71,7 +75,7 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		}, new Random().nextInt(10));
 	}
 
-	private void setDrawingable() {
+	private void setDrawingEnable() {
 		ivPhoto.setDrawingCacheEnabled(true);
 		ivPhoto.buildDrawingCache();
 	}
@@ -86,6 +90,10 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		isCheckAll = false;
 	}
 
+	public void setCanContinueChecked(boolean canChecked) {
+		cbPhoto.setEnabled(canChecked);
+	}
+
 	public void setOnClickListener(onItemClickListener l, int position) {
 		this.l = l;
 		this.position = position;
@@ -97,12 +105,16 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 			l.onItemClick(position);
 	}
 
-	/** 图片Item选中事件监听器 */
+	/**
+	 * 图片Item选中事件监听器
+	 */
 	public static interface onPhotoItemCheckedListener {
 		public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked);
 	}
 
-	/** 图片点击事件 */
+	/**
+	 * 图片点击事件
+	 */
 	public interface onItemClickListener {
 		public void onItemClick(int position);
 	}

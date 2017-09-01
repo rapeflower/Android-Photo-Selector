@@ -33,7 +33,7 @@ public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements Ph
 		} else if (extras.containsKey("album")) { // 点击图片查看
 			String albumName = extras.getString("album"); // 相册
 			this.current = extras.getInt("position");
-			if (!CommonUtil.isNull(albumName) && albumName.equals(PhotoSelectorActivity.RECCENT_PHOTO)) {
+			if (!CommonUtil.isNull(albumName) && albumName.equals(PhotoSelectorActivity.RECENT_PHOTO)) {
 				photoSelectorManager.getRecentPhoto(this);
 			} else {
 				photoSelectorManager.getAlbumPhoto(albumName, this);

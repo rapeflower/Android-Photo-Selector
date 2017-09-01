@@ -23,7 +23,8 @@
 
         <activity
             android:name=".activity.PhotoSelectorActivity"
-            android:label="图片选择" >
+            android:label="图片选择"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity

@@ -8,6 +8,7 @@ public class PhotoModel implements Serializable {
 
 	private String originalPath;
 	private boolean isChecked;
+	private boolean isEnabled = true;
 
 	public PhotoModel() {
 	}
@@ -19,6 +20,12 @@ public class PhotoModel implements Serializable {
 	public PhotoModel(String originalPath, boolean isChecked) {
 		this.originalPath = originalPath;
 		this.isChecked = isChecked;
+	}
+
+	public PhotoModel(String originalPath, boolean isChecked, boolean isEnabled) {
+		this.originalPath = originalPath;
+		this.isChecked = isChecked;
+		this.isEnabled = isEnabled;
 	}
 
 	public String getOriginalPath() {
@@ -37,4 +44,11 @@ public class PhotoModel implements Serializable {
 		this.isChecked = isChecked;
 	}
 
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+	}
 }

@@ -9,12 +9,11 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.TextView;
 
 import com.lily.photo.selector.R;
-import com.lily.photo.selector.adapter.MBaseAdapter;
 import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.utils.CommonUtil;
 import com.lily.photo.selector.view.PhotoItem;
-import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
 import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
+import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +21,8 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 
 	private int itemWidth;
 	private int horizontalNum = 3;
+	private int maxSelectable = 9;//图片选择的最多数量，默认是9张
+	private int currentSelectNum = 0;//当前选中的图片数量
 	private onPhotoItemCheckedListener listener;
 	private LayoutParams itemLayoutParams;
 	private onItemClickListener mCallback;
@@ -40,11 +41,33 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 		this.cameraListener = cameraListener;
 	}
 
-	/** 设置每一个Item的宽高 */
+	/**
+	 * 设置每一个Item的宽高
+	 *
+	 * @param screenWidth 屏幕宽度
+	 */
 	public void setItemWidth(int screenWidth) {
 		int horizontalSpace = context.getResources().getDimensionPixelSize(R.dimen.sticky_item_horizontalSpacing);
 		this.itemWidth = (screenWidth - (horizontalSpace * (horizontalNum - 1))) / horizontalNum;
 		this.itemLayoutParams = new LayoutParams(itemWidth, itemWidth);
+	}
+
+	/**
+	 * 设置最多可选择图片的数量
+	 *
+	 * @param maxSelectable
+	 */
+	public void setMaxSelectable(int maxSelectable) {
+		this.maxSelectable = maxSelectable;
+	}
+
+	/**
+	 * 当前选中的图片数量
+	 *
+	 * @param currentSelectNum
+	 */
+	public void setCurrentSelectNum(int currentSelectNum) {
+		this.currentSelectNum = currentSelectNum;
 	}
 
 	@Override
@@ -67,8 +90,15 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 			} else {
 				item = (PhotoItem) convertView;
 			}
+            item.setTag(position);
+
 			item.setImageDrawable(models.get(position));
 			item.setSelected(models.get(position).isChecked());
+            int index = (int) item.getTag();
+            if (index == position) {
+                //android.util.Log.w("log", " position = " + position + ", isEnabled = " + models.get(position).isEnabled());
+                item.setCanContinueChecked(models.get(position).isEnabled());
+            }
 			item.setOnClickListener(mCallback, position);
 		}
 		return convertView;

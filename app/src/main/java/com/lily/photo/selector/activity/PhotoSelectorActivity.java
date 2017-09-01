@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.adapter.AlbumAdapter;
@@ -24,11 +26,11 @@ import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.utils.AnimationUtil;
 import com.lily.photo.selector.utils.CommonUtil;
+import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
+import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
-import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	public static final int REQUEST_PHOTO = 0;
 	private static final int REQUEST_CAMERA = 1;
 
-	public static final String RECCENT_PHOTO = "最近照片";
+	public static final String RECENT_PHOTO = "最近照片";
 
 	private GridView gvPhotos;
 	private ListView lvAlbum;
@@ -49,7 +51,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private PhotoSelectorAdapter photoAdapter;
 	private AlbumAdapter albumAdapter;
 	private RelativeLayout layoutAlbum;
+	private ArrayList<PhotoModel> photoData;
 	private ArrayList<PhotoModel> selected;
+	private boolean isReset = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 		photoSelectorDomain = new PhotoSelectorManager(getApplicationContext());
 
+		photoData = new ArrayList<PhotoModel>();
 		selected = new ArrayList<PhotoModel>();
 
 		tvTitle = (TextView) findViewById(R.id.tv_title_lh);
@@ -197,11 +202,16 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 */
 	@Override
 	public void onItemClick(int position) {
+		if (selected.size() >= 9)  {
+			Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Bundle bundle = new Bundle();
-		if (tvAlbum.getText().toString().equals(RECCENT_PHOTO))
+		if (tvAlbum.getText().toString().equals(RECENT_PHOTO)) {
 			bundle.putInt("position", position - 1);
-		else
+		} else {
 			bundle.putInt("position", position);
+		}
 		bundle.putString("album", tvAlbum.getText().toString());
 		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
 	}
@@ -226,6 +236,37 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		if (selected.isEmpty()) {
 			tvPreview.setEnabled(false);
 			tvPreview.setText("预览");
+		}
+
+		if (selected.size() >= 9) {
+            if (photoData == null || photoData.size() == 0) return;
+			isReset = true;
+
+			for (PhotoModel pd : photoData) {
+				if (pd == null) continue;
+				String path = pd.getOriginalPath();
+				if (TextUtils.isEmpty(path)) continue;
+				for (PhotoModel selectPd : selected) {
+					if (selectPd == null) continue;
+					if (path.equals(selectPd.getOriginalPath())) {
+						pd.setEnabled(true);
+						break;
+					} else {
+						pd.setEnabled(false);
+					}
+				}
+			}
+			photoAdapter.update(photoData);
+		} else {
+			if (isReset) {
+				for (PhotoModel pd : photoData) {
+					if (pd == null) continue;
+					pd.setEnabled(true);
+				}
+				photoAdapter.update(photoData);
+
+				isReset = false;
+			}
 		}
 	}
 
@@ -261,7 +302,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		tvTitle.setText(current.getName());
 
 		// 更新照片列表
-		if (current.getName().equals(RECCENT_PHOTO))
+		if (current.getName().equals(RECENT_PHOTO))
 			photoSelectorDomain.getRecentPhoto(recentListener);
 		else
 			photoSelectorDomain.getAlbumPhoto(current.getName(), recentListener); // 获取选中相册的照片
@@ -291,10 +332,12 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private OnLocalRecentListener recentListener = new OnLocalRecentListener() {
 		@Override
 		public void onPhotoLoaded(List<PhotoModel> photos) {
-			if (tvAlbum.getText().equals(RECCENT_PHOTO)) {
+			if (tvAlbum.getText().equals(RECENT_PHOTO)) {
 				photos.add(0, new PhotoModel());
 			}
-			photoAdapter.update(photos);
+			photoData.clear();
+			photoData.addAll(photos);
+			photoAdapter.update(photoData);
 			gvPhotos.smoothScrollToPosition(0); // 滚动到顶端
 			reset();
 		}
