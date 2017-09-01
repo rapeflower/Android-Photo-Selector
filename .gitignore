@@ -24,6 +24,7 @@ hs_err_pid*
 .idea/
 Android-Photo-Selector.iml
 build/
+app/app.iml
 local.properties
 /.idea/workspace.xml
 /.idea/vcs.xml
@@ -35,4 +36,3 @@ local.properties
 .idea/misc.xml
 .idea/runConfigurations.xml
 .idea/workspace.xml
-
