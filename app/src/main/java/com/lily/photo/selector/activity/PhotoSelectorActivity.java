@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -143,6 +142,10 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		if (selected.isEmpty()) {
 			setResult(RESULT_CANCELED);
 		} else {
+			if (selected.size() > maxSelectable)  {
+				Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			Intent data = new Intent();
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("photos", selected);
@@ -203,14 +206,14 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 */
 	@Override
 	public void onItemClick(int position) {
-		if (selected.size() >= maxSelectable)  {
-			if (photoData == null || photoData.size() == 0) return;
-			PhotoModel pm = photoData.get(position);
-			if (pm != null && !pm.isEnabled()) {
-				Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
-				return;
-			}
-		}
+//		if (selected.size() >= maxSelectable)  {
+//			if (photoData == null || photoData.size() == 0) return;
+//			PhotoModel pm = photoData.get(position);
+//			if (pm != null && !pm.isEnabled()) {
+//				Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//		}
 		Bundle bundle = new Bundle();
 		if (tvAlbum.getText().toString().equals(RECENT_PHOTO)) {
 			bundle.putInt("position", position - 1);
@@ -243,36 +246,36 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			tvPreview.setText("预览");
 		}
 
-		if (selected.size() >= maxSelectable) {
-            if (photoData == null || photoData.size() == 0) return;
-			isReset = true;
-
-			for (PhotoModel pd : photoData) {
-				if (pd == null) continue;
-				String path = pd.getOriginalPath();
-				if (TextUtils.isEmpty(path)) continue;
-				for (PhotoModel selectPd : selected) {
-					if (selectPd == null) continue;
-					if (path.equals(selectPd.getOriginalPath())) {
-						pd.setEnabled(true);
-						break;
-					} else {
-						pd.setEnabled(false);
-					}
-				}
-			}
-			photoAdapter.update(photoData);
-		} else {
-			if (isReset) {
-				for (PhotoModel pd : photoData) {
-					if (pd == null) continue;
-					pd.setEnabled(true);
-				}
-				photoAdapter.update(photoData);
-
-				isReset = false;
-			}
-		}
+//		if (selected.size() >= maxSelectable) {
+//            if (photoData == null || photoData.size() == 0) return;
+//			isReset = true;
+//
+//			for (PhotoModel pd : photoData) {
+//				if (pd == null) continue;
+//				String path = pd.getOriginalPath();
+//				if (TextUtils.isEmpty(path)) continue;
+//				for (PhotoModel selectPd : selected) {
+//					if (selectPd == null) continue;
+//					if (path.equals(selectPd.getOriginalPath())) {
+//						pd.setEnabled(true);
+//						break;
+//					} else {
+//						pd.setEnabled(false);
+//					}
+//				}
+//			}
+//			photoAdapter.update(photoData);
+//		} else {
+//			if (isReset) {
+//				for (PhotoModel pd : photoData) {
+//					if (pd == null) continue;
+//					pd.setEnabled(true);
+//				}
+//				photoAdapter.update(photoData);
+//
+//				isReset = false;
+//			}
+//		}
 	}
 
 	@Override
