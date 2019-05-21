@@ -21,7 +21,6 @@ import android.view.MotionEvent;
 
 /**
  * @author Jason Polites
- *
  */
 public class FlingListener extends SimpleOnGestureListener {
 	

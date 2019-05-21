@@ -45,7 +45,7 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 	 * @param screenWidth 屏幕宽度
 	 */
 	public void setItemWidth(int screenWidth) {
-		int horizontalSpace = context.getResources().getDimensionPixelSize(R.dimen.sticky_item_horizontalSpacing);
+		int horizontalSpace = context.getResources().getDimensionPixelSize(R.dimen.dimen_6px);
 		this.itemWidth = (screenWidth - (horizontalSpace * (horizontalNum - 1))) / horizontalNum;
 		this.itemLayoutParams = new LayoutParams(itemWidth, itemWidth);
 	}
@@ -54,7 +54,8 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		PhotoItem item = null;
 		TextView tvCamera = null;
-		if (position == 0 && CommonUtil.isNull(models.get(position).getOriginalPath())) { // 当时第一个时，显示按钮
+		// 当时第一个时，显示按钮
+		if (position == 0 && CommonUtil.isNull(models.get(position).getOriginalPath())) {
 			if (convertView == null || !(convertView instanceof TextView)) {
 				tvCamera = (TextView) LayoutInflater.from(context).inflate(R.layout.view_camera, null);
 				tvCamera.setHeight(itemWidth);

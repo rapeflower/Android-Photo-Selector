@@ -1,5 +1,12 @@
 package com.lily.photo.selector.model;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:21
+ * @Describe 相册实体类
+ *
+ */
 public class AlbumModel {
 
 	private String name;

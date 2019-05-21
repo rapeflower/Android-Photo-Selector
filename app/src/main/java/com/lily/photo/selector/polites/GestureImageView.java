@@ -15,6 +15,7 @@
  */
 package com.lily.photo.selector.polites;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -40,9 +41,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Jason Polites
- *
  */
-public class GestureImageView extends ImageView  {
+@SuppressLint("AppCompatCustomView")
+public class GestureImageView extends ImageView {
 
 	public static final String GLOBAL_NS = "http://schemas.android.com/apk/res/android";
 	public static final String LOCAL_NS = "http://schemas.polites.com/android";

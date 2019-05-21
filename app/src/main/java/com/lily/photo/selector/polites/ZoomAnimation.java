@@ -17,10 +17,8 @@ package com.lily.photo.selector.polites;
 
 import android.graphics.PointF;
 
-
 /**
  * @author Jason Polites
- *
  */
 public class ZoomAnimation implements Animation {
 
@@ -63,7 +61,7 @@ public class ZoomAnimation implements Animation {
 				
 				// Set the touch point as start because we want to move the end				
 				vector.setStart(new PointF(touchX, touchY));
-				vector.setEnd(new PointF(startX, startY));				
+				vector.setEnd(new PointF(startX, startY));
 			
 				vector.calculateAngle();
 				

@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black" >
+    android:background="@android:color/white" >
 
     <RelativeLayout
-        android:id="@+id/hl_head_ar"
+        android:id="@+id/rl_head_ar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_title_heigh"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/bg_title" >
+        android:layout_height="?android:actionBarSize"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:id="@+id/bv_back_lh"
@@ -17,15 +16,15 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_back_selector"
             android:clickable="true"
             android:orientation="horizontal" >
 
             <ImageView
                 android:id="@+id/iv_back_vb"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/layout_title_content_heigh"
+                android:layout_width="@dimen/dimen_28px"
+                android:layout_height="@dimen/dimen_48px"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_28px"
                 android:src="@drawable/ic_title_btn_back" />
 
             <TextView
@@ -33,10 +32,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:text="返回"
-                android:textColor="#FEFEFE"
-                android:textSize="@dimen/layout_title_mini_textsize" />
+                android:layout_marginLeft="@dimen/dimen_10px"
+                android:text="@string/psl_go_back"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
         <TextView
@@ -45,28 +46,34 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
-            android:text="最近照片"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:text="@string/psl_recent_photos"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_size_18" />
 
         <Button
             android:id="@+id/btn_right_lh"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/dimen_120px"
+            android:layout_height="@dimen/dimen_60px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="@dimen/dimen_20px"
             android:background="@drawable/btn_green_selector_rectangle"
-            android:text="确定"
+            android:text="@string/psl_confirm"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/layout_title_mini_textsize" />
+            android:textSize="@dimen/font_size_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="#DDDDDD" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/layout_toolbar_ar"
-        android:layout_below="@+id/hl_head_ar" >
+        android:layout_below="@+id/rl_head_ar" >
 
         <GridView
             android:id="@+id/gv_photos_ar"
@@ -74,38 +81,34 @@
             android:layout_height="match_parent"
             android:clipToPadding="true"
             android:listSelector="@null"
-            android:horizontalSpacing="@dimen/sticky_item_horizontalSpacing"
+            android:horizontalSpacing="@dimen/dimen_6px"
             android:numColumns="3"
             android:stretchMode="columnWidth"
             android:scrollbars="none"
-            android:verticalSpacing="@dimen/sticky_item_verticalSpacing" />
+            android:verticalSpacing="@dimen/dimen_6px" />
 
-        <RelativeLayout
-            android:id="@+id/layout_album_ar"
+        <ListView
+            android:id="@+id/lv_album_ar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_dark_translucent"
-            android:visibility="gone" >
-
-            <ListView
-                android:id="@+id/lv_album_ar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:scrollbarStyle="outsideOverlay" >
-            </ListView>
-        </RelativeLayout>
-    </RelativeLayout>
+            android:listSelector="@android:color/transparent"
+            android:background="@android:color/white"
+            android:paddingLeft="@dimen/dimen_30px"
+            android:paddingRight="@dimen/dimen_30px"
+            android:scrollbarStyle="outsideOverlay"
+            android:visibility="gone"/>
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/layout_toolbar_ar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/collection_photo_toolbar_height"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_dark_translucent" >
+        android:layout_height="@dimen/dimen_90px"
+        android:layout_alignParentBottom="true">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#DDDDDD" />
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,30 +119,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dimen_20px"
                 android:gravity="center"
-                android:text="最近照片"
+                android:text="@string/psl_recent_photos"
                 android:textColor="@drawable/btn_black_textcolor_selector"
-                android:textSize="13sp" />
+                android:textSize="@dimen/font_size_13" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="-3dp"
-                android:layout_marginLeft="-3dp"
+                android:layout_marginBottom="@dimen/dimen_negative_6px"
+                android:layout_marginLeft="@dimen/dimen_negative_6px"
                 android:layout_toRightOf="@+id/tv_album_ar"
-                android:background="@drawable/ic_spinner_white"
+                android:background="@drawable/ic_spinner_black"
                 android:scaleType="centerInside" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_line_ar"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/dimen_2px"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="@dimen/dimen_20px"
+            android:layout_marginRight="@dimen/dimen_10px"
+            android:layout_marginTop="@dimen/dimen_20px"
             android:layout_toLeftOf="@+id/tv_preview_ar"
             android:background="@android:color/black" />
 
@@ -151,8 +154,8 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:enabled="false"
-            android:padding="10dp"
-            android:text="预览"
+            android:padding="@dimen/dimen_20px"
+            android:text="@string/psl_preview"
             android:textColor="@drawable/btn_black_textcolor_selector" />
     </RelativeLayout>
 

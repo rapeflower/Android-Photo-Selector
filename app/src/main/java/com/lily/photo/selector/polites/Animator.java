@@ -15,10 +15,8 @@
  */
 package com.lily.photo.selector.polites;
 
-
 /**
  * @author Jason Polites
- *
  */
 public class Animator extends Thread {
 	
@@ -72,6 +70,7 @@ public class Animator extends Thread {
 	public synchronized void finish() {
 		running = false;
 		active = false;
+		this.view = null;
 		notifyAll();
 	}
 

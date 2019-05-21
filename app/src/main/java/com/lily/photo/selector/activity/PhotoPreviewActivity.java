@@ -8,6 +8,13 @@ import com.lily.photo.selector.utils.CommonUtil;
 
 import java.util.List;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 14:45
+ * @Describe 图片预览
+ *
+ */
 public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements PhotoSelectorActivity.OnLocalRecentListener {
 
 	private PhotoSelectorManager photoSelectorManager;
@@ -22,17 +29,20 @@ public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements Ph
 
 	@SuppressWarnings("unchecked")
 	protected void init(Bundle extras) {
-		if (extras == null)
+		if (extras == null) {
 			return;
-
-		if (extras.containsKey("photos")) { // 预览图片
-			photos = (List<PhotoModel>) extras.getSerializable("photos");
-			current = extras.getInt("position", 0);
+		}
+		// 预览图片
+		if (extras.containsKey(KEY_PHOTOS)) {
+			photos = (List<PhotoModel>) extras.getSerializable(KEY_PHOTOS);
+			current = extras.getInt(KEY_POSITION, 0);
 			updatePercent();
 			bindData();
-		} else if (extras.containsKey("album")) { // 点击图片查看
-			String albumName = extras.getString("album"); // 相册
-			this.current = extras.getInt("position");
+		} else if (extras.containsKey(KEY_ALBUM)) {
+			// 点击图片查看
+			// 相册
+			String albumName = extras.getString(KEY_ALBUM);
+			this.current = extras.getInt(KEY_POSITION);
 			if (!CommonUtil.isNull(albumName) && albumName.equals(PhotoSelectorActivity.RECENT_PHOTO)) {
 				photoSelectorManager.getRecentPhoto(this);
 			} else {
@@ -45,7 +55,8 @@ public class PhotoPreviewActivity extends BasePhotoPreviewActivity implements Ph
 	public void onPhotoLoaded(List<PhotoModel> photos) {
 		this.photos = photos;
 		updatePercent();
-		bindData(); // 更新界面
+		// 更新界面
+		bindData();
 	}
 
 }

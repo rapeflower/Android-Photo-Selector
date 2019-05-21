@@ -5,12 +5,19 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.lily.photo.selector.activity.PhotoSelectorActivity;
 import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.activity.PhotoSelectorActivity;
 
 import java.util.List;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:19
+ * @Describe 照片管理类
+ *
+ */
 @SuppressLint("HandlerLeak")
 public class PhotoSelectorManager {
 
@@ -30,7 +37,9 @@ public class PhotoSelectorManager {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handleMessage(Message msg) {
-				if (listener == null) return;
+				if (listener == null) {
+					return;
+				}
 				listener.onPhotoLoaded((List<PhotoModel>) msg.obj);
 			}
 		};
@@ -55,7 +64,9 @@ public class PhotoSelectorManager {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handleMessage(Message msg) {
-				if (listener == null) return;
+				if (listener == null) {
+					return;
+				}
 				listener.onAlbumLoaded((List<AlbumModel>) msg.obj);
 			}
 		};
@@ -81,7 +92,9 @@ public class PhotoSelectorManager {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handleMessage(Message msg) {
-				if (listener == null) return;
+				if (listener == null) {
+					return;
+				}
 				listener.onPhotoLoaded((List<PhotoModel>) msg.obj);
 			}
 		};

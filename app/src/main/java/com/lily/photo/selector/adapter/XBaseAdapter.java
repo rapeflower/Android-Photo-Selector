@@ -8,31 +8,34 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MBaseAdapter<T> extends BaseAdapter {
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:18
+ * @Describe 适配器基类
+ *
+ */
+public class XBaseAdapter<T> extends BaseAdapter {
 
 	protected Context context;
 	protected ArrayList<T> models;
 
-	public MBaseAdapter(Context context, ArrayList<T> models) {
+	public XBaseAdapter(Context context, ArrayList<T> models) {
 		this.context = context;
-		if (models == null) {
+		if (models == null)
 			this.models = new ArrayList<T>();
-		} else {
+		else
 			this.models = models;
-		}
 	}
 
 	@Override
 	public int getCount() {
-		if (models != null) {
-			return models.size();
-		}
-		return 0;
+		return models == null ? 0 : models.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return models.get(position);
+		return models == null ? null : models.get(position);
 	}
 
 	@Override
@@ -50,10 +53,9 @@ public class MBaseAdapter<T> extends BaseAdapter {
 	 *
 	 * @param models
 	 */
-	public void update(List<T> models) {
-		if (models == null) {
+	public void notifyDataSetChanged(List<T> models) {
+		if (models == null)
 			return;
-		}
 		this.models.clear();
 		for (T t : models) {
 			this.models.add(t);

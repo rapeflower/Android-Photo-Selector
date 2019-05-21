@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/albumitem_height"
-    android:gravity="center_vertical" >
+    android:layout_height="@dimen/dimen_200px">
 
-    <RelativeLayout
-        android:id="@+id/layout_left_la"
-        android:layout_width="@dimen/albumitem_content_height"
-        android:layout_height="@dimen/albumitem_content_height"
+    <FrameLayout
+        android:id="@+id/fl_content_left"
+        android:layout_width="@dimen/dimen_160px"
+        android:layout_height="@dimen/dimen_160px"
         android:layout_centerVertical="true" >
 
         <ImageView
@@ -17,21 +16,21 @@
             android:scaleType="fitCenter" />
 
         <ImageView
-            android:id="@+id/iv_album_la"
+            android:id="@+id/iv_album"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginBottom="@dimen/dimen_10px"
+            android:layout_marginRight="@dimen/dimen_10px"
             android:scaleType="centerCrop" />
-    </RelativeLayout>
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/layout_left_la"
+        android:layout_toRightOf="@+id/fl_content_left"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:paddingLeft="5dp" >
+        android:paddingLeft="@dimen/dimen_10px" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,23 +38,24 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tv_name_la"
+                android:id="@+id/tv_album_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="17sp" />
+                android:textSize="@dimen/font_size_17" />
 
             <TextView
-                android:id="@+id/tv_count_la"
+                android:id="@+id/tv_photo_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp" />
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_13" />
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/iv_index_la"
-            android:layout_width="@dimen/albumitem_image_height"
-            android:layout_height="@dimen/albumitem_image_height"
+            android:id="@+id/iv_index"
+            android:layout_width="@dimen/dimen_40px"
+            android:layout_height="@dimen/dimen_40px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_choice_green" />

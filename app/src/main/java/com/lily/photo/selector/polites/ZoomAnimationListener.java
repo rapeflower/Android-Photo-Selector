@@ -15,7 +15,20 @@
  */
 package com.lily.photo.selector.polites;
 
+/**
+ * @author Jason Polites
+ */
 public interface ZoomAnimationListener {
-	public void onZoom(float scale, float x, float y);
-	public void onComplete();
+	/**
+	 * 缩放
+	 * @param scale
+	 * @param x
+	 * @param y
+	 */
+	void onZoom(float scale, float x, float y);
+
+	/**
+	 * 完成
+	 */
+	void onComplete();
 }

@@ -10,35 +10,65 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 
-/**
- * 动画工具类
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:30
+ * @Describe 动画工具类
+ *
  */
 public class AnimationUtil implements AnimationListener {
 
 	private Animation animation;
-	private OnAnimationEndListener animationEndListener;// 动画完成监听器
-	private OnAnimationStartListener animationStartListener; // 动画开始监听器
-	private OnAnimationRepeatListener animationRepeatListener;// 动画重复时的监听器
+	/**
+	 * 动画完成监听器
+	 */
+	private OnAnimationEndListener animationEndListener;
+	/**
+	 * 动画开始监听器
+	 */
+	private OnAnimationStartListener animationStartListener;
+	/**
+	 * 动画重复时的监听器
+	 */
+	private OnAnimationRepeatListener animationRepeatListener;
 
 	public AnimationUtil(Context context, int resId) {
 		this.animation = AnimationUtils.loadAnimation(context, resId);
 		this.animation.setAnimationListener(this);
 	}
 
-	/** 自定义一个Translate类型的Animation */
+	/**
+	 * 自定义一个Translate类型的Animation
+	 *
+	 * @param fromXDelta
+	 * @param toXDelta
+	 * @param fromYDelta
+	 * @param toYDelta
+	 */
 	public AnimationUtil(float fromXDelta, float toXDelta, float fromYDelta,
 			float toYDelta) {
 		animation = new TranslateAnimation(fromXDelta, toXDelta, fromYDelta,
 				toYDelta);
 	}
 
-	/** 两个动画之间的时间间隔 */
-	public AnimationUtil setStartOffSet(long startOffset) {
+	/**
+	 * 两个动画之间的时间间隔
+	 *
+	 * @param startOffset
+	 * @return
+	 */
+	public AnimationUtil setStartOffset(long startOffset) {
 		animation.setStartOffset(startOffset);
 		return this;
 	}
 
-	/** 设置一个动画的插入器 */
+	/**
+	 * 设置一个动画的插入器
+	 *
+	 * @param i
+	 * @return
+	 */
 	public AnimationUtil setInterpolator(Interpolator i) {
 		animation.setInterpolator(i);
 		return this;
@@ -49,12 +79,21 @@ public class AnimationUtil implements AnimationListener {
 		return this;
 	}
 
-	/** 开始动画 */
+	/**
+	 * 开始动画
+	 *
+	 * @param view
+	 */
 	public void startAnimation(View view) {
 		view.startAnimation(animation);
 	}
 
-	/** 开启一个帧动画 */
+	/**
+	 * 开启一个帧动画
+	 *
+	 * @param resId
+	 * @param view
+	 */
 	public static void startAnimation(int resId, View view) {
 		view.setBackgroundResource(resId);
 		((AnimationDrawable) view.getBackground()).start();
@@ -71,14 +110,26 @@ public class AnimationUtil implements AnimationListener {
 	}
 
 	public interface OnAnimationEndListener {
+		/**
+		 * 动画结束
+		 * @param animation
+		 */
 		void onAnimationEnd(Animation animation);
 	}
 
 	public interface OnAnimationStartListener {
+		/**
+		 * 动画开始
+		 * @param animation
+		 */
 		void onAnimationStart(Animation animation);
 	}
 
 	public interface OnAnimationRepeatListener {
+		/**
+		 * 动画重复
+		 * @param animation
+		 */
 		void onAnimationRepeat(Animation animation);
 	}
 

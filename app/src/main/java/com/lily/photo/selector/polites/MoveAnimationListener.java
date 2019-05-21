@@ -18,10 +18,9 @@ package com.lily.photo.selector.polites;
 
 /**
  * @author Jason Polites
- *
  */
 public interface MoveAnimationListener {
 
-	public void onMove(float x, float y);
+	void onMove(float x, float y);
 	
 }

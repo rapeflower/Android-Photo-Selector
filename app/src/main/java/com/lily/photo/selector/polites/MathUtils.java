@@ -20,7 +20,6 @@ import android.view.MotionEvent;
 
 /**
  * @author Jason Polites
- *
  */
 public class MathUtils {
 	

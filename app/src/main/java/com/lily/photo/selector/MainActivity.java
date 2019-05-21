@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lily.photo.selector.model.PhotoModel;
-import com.lily.photo.selector.activity.PhotoSelectorActivity;
-import com.lily.photo.selector.utils.CommonUtil;
+import com.lily.photo.selector.utils.PhotoSelector;
 
 import java.util.List;
 
@@ -21,13 +20,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvPath = (TextView) findViewById(R.id.tv_path);
+        tvPath = findViewById(R.id.tv_path);
     }
 
     @Override
     public void onClick(View v) {
-        // CommonUtils是library中的一个工具类
-        CommonUtil.launchActivityForResult(this, PhotoSelectorActivity.class, 0);
+        PhotoSelector.choosePhoto(this, 0);
         tvPath.setText("");
     }
 

@@ -9,7 +9,14 @@ import com.lily.photo.selector.view.AlbumItem;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends MBaseAdapter<AlbumModel> {
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:03
+ * @Describe 相册适配器
+ *
+ */
+public class AlbumAdapter extends XBaseAdapter<AlbumModel> {
 
 	public AlbumAdapter(Context context, ArrayList<AlbumModel> models) {
 		super(context, models);

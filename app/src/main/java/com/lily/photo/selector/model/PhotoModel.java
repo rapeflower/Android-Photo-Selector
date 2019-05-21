@@ -2,12 +2,19 @@ package com.lily.photo.selector.model;
 
 import java.io.Serializable;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:22
+ * @Describe 照片实体类
+ *
+ */
 public class PhotoModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String originalPath;
-	private boolean isChecked;
+	private boolean isChecked = false;
 	private boolean isEnabled = true;
 
 	public PhotoModel() {

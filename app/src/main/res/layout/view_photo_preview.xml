@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:gesture-image="http://schemas.polites.com/android"
-    android:id="@+id/layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/black" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/pb_loading_vpp"
@@ -15,9 +13,10 @@
 
     <com.lily.photo.selector.polites.GestureImageView
         android:id="@+id/iv_content_vpp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        gesture-image:max-scale="10.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        gesture-image:max-scale="8.0"
         gesture-image:min-scale="0.75" />
 
 </FrameLayout>

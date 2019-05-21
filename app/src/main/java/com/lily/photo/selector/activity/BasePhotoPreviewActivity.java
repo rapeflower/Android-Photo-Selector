@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -21,30 +20,40 @@ import com.lily.photo.selector.view.PhotoPreview;
 
 import java.util.List;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 14:44
+ * @Describe 图片预览基类
+ *
+ */
 public class BasePhotoPreviewActivity extends Activity implements OnPageChangeListener, OnClickListener {
 
+	public static final String KEY_PHOTOS = "photos";
+	public static final String KEY_POSITION = "position";
+	public static final String KEY_ALBUM = "album";
 	private ViewPager mViewPager;
-	private RelativeLayout layoutTop;
+	private RelativeLayout rlTopTitle;
 	private ImageButton btnBack;
 	private TextView tvPercent;
 	protected List<PhotoModel> photos;
 	protected int current;
+	protected boolean isUp = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
-		setContentView(R.layout.activity_photopreview);
-		layoutTop = (RelativeLayout) findViewById(R.id.layout_top_app);
-		btnBack = (ImageButton) findViewById(R.id.btn_back_app);
-		tvPercent = (TextView) findViewById(R.id.tv_percent_app);
-		mViewPager = (ViewPager) findViewById(R.id.vp_base_app);
+		setContentView(R.layout.activity_photo_preview);
+		rlTopTitle = findViewById(R.id.rl_top_title);
+		btnBack = findViewById(R.id.btn_back_app);
+		tvPercent = findViewById(R.id.tv_percent_app);
+		mViewPager = findViewById(R.id.vp_base_app);
 
 		btnBack.setOnClickListener(this);
 		mViewPager.addOnPageChangeListener(this);
 
-		overridePendingTransition(R.anim.activity_alpha_action_in, 0);// 渐入效果
-
+		// 渐入效果
+		overridePendingTransition(R.anim.activity_alpha_action_in, 0);
 	}
 
 	/**
@@ -68,8 +77,8 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 
 		@Override
 		public View instantiateItem(final ViewGroup container, final int position) {
-			PhotoPreview photoPreview = new PhotoPreview(getApplicationContext());
-			((ViewPager) container).addView(photoPreview);
+			PhotoPreview photoPreview = new PhotoPreview(BasePhotoPreviewActivity.this);
+			container.addView(photoPreview);
 			photoPreview.loadImage(photos.get(position));
 			photoPreview.setOnClickListener(photoItemClickListener);
 			return photoPreview;
@@ -86,12 +95,12 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		}
 
 	};
-	protected boolean isUp;
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.btn_back_app)
+		if (v.getId() == R.id.btn_back_app && !isUp) {
 			finish();
+		}
 	}
 
 	@Override
@@ -122,11 +131,13 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		public void onClick(View v) {
 			if (!isUp) {
 				new AnimationUtil(getApplicationContext(), R.anim.translate_up)
-						.setInterpolator(new LinearInterpolator()).setFillAfter(true).startAnimation(layoutTop);
+                        .setInterpolator(new LinearInterpolator()).setFillAfter(true)
+                        .startAnimation(rlTopTitle);
 				isUp = true;
 			} else {
 				new AnimationUtil(getApplicationContext(), R.anim.translate_down_current)
-						.setInterpolator(new LinearInterpolator()).setFillAfter(true).startAnimation(layoutTop);
+						.setInterpolator(new LinearInterpolator()).setFillAfter(true)
+                        .startAnimation(rlTopTitle);
 				isUp = false;
 			}
 		}

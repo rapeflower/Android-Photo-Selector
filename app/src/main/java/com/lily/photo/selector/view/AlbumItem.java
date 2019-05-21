@@ -8,14 +8,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.model.AlbumModel;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:54
+ * @Describe 相册控件
+ *
+ */
 public class AlbumItem extends LinearLayout {
 
 	private ImageView ivAlbum, ivIndex;
 	private TextView tvName, tvCount;
+	private Context mContext;
 
 	public AlbumItem(Context context) {
 		this(context, null);
@@ -23,12 +31,13 @@ public class AlbumItem extends LinearLayout {
 
 	public AlbumItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		LayoutInflater.from(context).inflate(R.layout.layout_album, this, true);
+		mContext = context;
+		LayoutInflater.from(context).inflate(R.layout.item_album, this, true);
 
-		ivAlbum = (ImageView) findViewById(R.id.iv_album_la);
-		ivIndex = (ImageView) findViewById(R.id.iv_index_la);
-		tvName = (TextView) findViewById(R.id.tv_name_la);
-		tvCount = (TextView) findViewById(R.id.tv_count_la);
+		ivAlbum = findViewById(R.id.iv_album);
+		ivIndex = findViewById(R.id.iv_index);
+		tvName = findViewById(R.id.tv_album_name);
+		tvCount = findViewById(R.id.tv_photo_count);
 	}
 
 	public AlbumItem(Context context, AttributeSet attrs, int defStyle) {
@@ -37,11 +46,13 @@ public class AlbumItem extends LinearLayout {
 
 	/**
 	 * 设置相册封面
-	 *
 	 * @param path
 	 */
 	public void setAlbumImage(String path) {
-		ImageLoader.getInstance().displayImage("file://" + path, ivAlbum);
+		 Glide.with(mContext).load("file://" + path)
+				 .placeholder(R.drawable.ic_picture_loading)
+				 .error(R.drawable.ic_picture_loadfailed)
+				 .crossFade().into(ivAlbum);
 	}
 
 	/**
@@ -61,7 +72,7 @@ public class AlbumItem extends LinearLayout {
 	}
 
 	public void setCount(int count) {
-		tvCount.setHint(count + "张");
+		tvCount.setText(count + "张");
 	}
 
 	public void isCheck(boolean isCheck) {

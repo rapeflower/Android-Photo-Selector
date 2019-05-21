@@ -18,7 +18,6 @@ package com.lily.photo.selector.polites;
 
 /**
  * @author Jason Polites
- *
  */
 public class MoveAnimation implements Animation {
 

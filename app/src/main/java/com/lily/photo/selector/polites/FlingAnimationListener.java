@@ -18,12 +18,19 @@ package com.lily.photo.selector.polites;
 
 /**
  * @author Jason Polites
- *
  */
 public interface FlingAnimationListener {
 
-	public void onMove(float x, float y);
-	
-	public void onComplete();
+	/**
+	 * 移动
+	 * @param x
+	 * @param y
+	 */
+	void onMove(float x, float y);
+
+	/**
+	 * 完成
+	 */
+	void onComplete();
 	
 }

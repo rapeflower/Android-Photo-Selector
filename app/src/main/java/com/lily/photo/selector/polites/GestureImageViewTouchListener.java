@@ -26,7 +26,6 @@ import android.view.View.OnTouchListener;
 
 /**
  * @author Jason Polites
- *
  */
 public class GestureImageViewTouchListener implements OnTouchListener {
 	

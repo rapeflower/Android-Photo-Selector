@@ -6,40 +6,42 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.adapter.AlbumAdapter;
-import com.lily.photo.selector.adapter.PhotoSelectorAdapter;
+import com.lily.photo.selector.adapter.PhotoAdapter;
 import com.lily.photo.selector.manager.PhotoSelectorManager;
 import com.lily.photo.selector.model.AlbumModel;
 import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.utils.AnimationUtil;
 import com.lily.photo.selector.utils.CommonUtil;
+import com.lily.photo.selector.utils.PhotoSelector;
 import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
 import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:00
+ * @Describe 选择图片
+ *
+ */
 public class PhotoSelectorActivity extends Activity implements onItemClickListener, onPhotoItemCheckedListener,
-		OnItemClickListener, OnClickListener {
+        OnItemClickListener, OnClickListener {
 
 	public static final int REQUEST_PHOTO = 0;
 	private static final int REQUEST_CAMERA = 1;
-
 	public static final String RECENT_PHOTO = "最近照片";
 
 	private GridView gvPhotos;
@@ -47,82 +49,109 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private Button btnOk;
 	private TextView tvAlbum, tvPreview, tvTitle;
 	private PhotoSelectorManager photoSelectorDomain;
-	private PhotoSelectorAdapter photoAdapter;
+	private PhotoAdapter photoAdapter;
 	private AlbumAdapter albumAdapter;
-	private RelativeLayout layoutAlbum;
 	private ArrayList<PhotoModel> photoData;
 	private ArrayList<PhotoModel> selected;
-	private int maxSelectable = 9;//图片选择的最多数量，默认是9张
-	private boolean isReset = false;
+	/**
+	 * 图片选择的最多数量
+	 */
+	private int maxSelectable = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
-		setContentView(R.layout.activity_photoselector);
-
-		DisplayImageOptions defaultDisplayImageOptions = new DisplayImageOptions.Builder() //
-				.considerExifParams(true) // 调整图片方向
-				.resetViewBeforeLoading(true) // 载入之前重置ImageView
-				.showImageOnLoading(R.drawable.ic_picture_loading) // 载入时图片设置为黑色
-				.showImageOnFail(R.drawable.ic_picture_loadfailed) // 加载失败时显示的图片
-				.delayBeforeLoading(0) // 载入之前的延迟时间
-				.build(); //
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-				.defaultDisplayImageOptions(defaultDisplayImageOptions).memoryCacheExtraOptions(480, 800)
-				.threadPoolSize(5).build();
-		ImageLoader.getInstance().init(config);
+		setContentView(R.layout.activity_photo_selector);
+		maxSelectable = PhotoSelector.getInstance().maxSelectable();
 
 		photoSelectorDomain = new PhotoSelectorManager(getApplicationContext());
+		photoData = new ArrayList<>();
+		selected = new ArrayList<>();
 
-		photoData = new ArrayList<PhotoModel>();
-		selected = new ArrayList<PhotoModel>();
-
-		tvTitle = (TextView) findViewById(R.id.tv_title_lh);
-		gvPhotos = (GridView) findViewById(R.id.gv_photos_ar);
-		lvAlbum = (ListView) findViewById(R.id.lv_album_ar);
-		btnOk = (Button) findViewById(R.id.btn_right_lh);
-		tvAlbum = (TextView) findViewById(R.id.tv_album_ar);
-		tvPreview = (TextView) findViewById(R.id.tv_preview_ar);
-		layoutAlbum = (RelativeLayout) findViewById(R.id.layout_album_ar);
+		tvTitle = findViewById(R.id.tv_title_lh);
+		gvPhotos = findViewById(R.id.gv_photos_ar);
+		lvAlbum = findViewById(R.id.lv_album_ar);
+		btnOk = findViewById(R.id.btn_right_lh);
+		tvAlbum = findViewById(R.id.tv_album_ar);
+		tvPreview = findViewById(R.id.tv_preview_ar);
 
 		btnOk.setOnClickListener(this);
 		tvAlbum.setOnClickListener(this);
 		tvPreview.setOnClickListener(this);
 
-		photoAdapter = new PhotoSelectorAdapter(getApplicationContext(), new ArrayList<PhotoModel>(),
-				CommonUtil.getWidthPixels(this), this, this, this);
+		photoAdapter = new PhotoAdapter(PhotoSelectorActivity.this, photoData);
 		gvPhotos.setAdapter(photoAdapter);
+		photoAdapter.setOnItemCheckedChangedListener(new PhotoAdapter.OnItemCheckedChangedListener() {
+			@Override
+			public void onItemCheckedChanged(CompoundButton chBox, boolean isChecked, PhotoModel photoModel) {
+				if (isChecked) {
+					if (getSelectedPhotoCount() > maxSelectable - 1) {
+						Toast.makeText(PhotoSelectorActivity.this, "你最多只能选择" + maxSelectable + "张图片", Toast.LENGTH_SHORT).show();
+						chBox.setChecked(false);
+						photoModel.setChecked(false);
+						selected.remove(photoModel);
+					} else {
+						selected.add(photoModel);
+					}
+					tvPreview.setEnabled(true);
+				} else {
+					selected.remove(photoModel);
+				}
+
+				//修改预览数量
+				tvPreview.setText(getResources().getString(R.string.psl_preview) + "(" + selected.size() + ")");
+
+				if (selected.isEmpty()) {
+					tvPreview.setEnabled(false);
+					tvPreview.setText(getResources().getString(R.string.psl_preview));
+				}
+			}
+
+			@Override
+			public void onShowPicture(String path, int position) {
+				Bundle bundle = new Bundle();
+				bundle.putInt(BasePhotoPreviewActivity.KEY_POSITION, position);
+				bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbum.getText().toString());
+				startActivity(PhotoPreviewActivity.class, bundle);
+			}
+		});
 
 		albumAdapter = new AlbumAdapter(getApplicationContext(), new ArrayList<AlbumModel>());
 		lvAlbum.setAdapter(albumAdapter);
 		lvAlbum.setOnItemClickListener(this);
 
-		findViewById(R.id.bv_back_lh).setOnClickListener(this); //  返回
+		// 返回
+		findViewById(R.id.bv_back_lh).setOnClickListener(this);
 
-		photoSelectorDomain.getRecentPhoto(recentListener); //  更新最近照片
-		photoSelectorDomain.getAlbums(albumListener); // 更新相册信息
+		// 更新最近照片
+		photoSelectorDomain.getRecentPhoto(recentListener);
+		// 更新相册信息
+		photoSelectorDomain.getAlbums(albumListener);
+	}
+
+	private int getSelectedPhotoCount() {
+		return selected == null ? 0 : selected.size();
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.btn_right_lh)
-			ok();  // 选完照片
-		else if (v.getId() == R.id.tv_album_ar)
+		if (v.getId() == R.id.btn_right_lh) {
+			// 选完照片
+			ok();
+		} else if (v.getId() == R.id.tv_album_ar) {
 			album();
-		else if (v.getId() == R.id.tv_preview_ar)
+		} else if (v.getId() == R.id.tv_preview_ar) {
 			preview();
-		else if (v.getId() == R.id.tv_camera_vc)
-			catchPicture();
-		else if (v.getId() == R.id.bv_back_lh)
+		} else if (v.getId() == R.id.bv_back_lh) {
 			finish();
+		}
 	}
 
 	/**
 	 * 拍照
 	 */
-	private void catchPicture() {
-		CommonUtil.launchActivityForResult(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
+	private void takePhoto() {
+		PhotoSelector.takePhoto(this, new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA);
 	}
 
 	@Override
@@ -142,13 +171,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		if (selected.isEmpty()) {
 			setResult(RESULT_CANCELED);
 		} else {
-			if (selected.size() > maxSelectable)  {
-				Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
-				return;
-			}
 			Intent data = new Intent();
 			Bundle bundle = new Bundle();
-			bundle.putSerializable("photos", selected);
+			bundle.putSerializable(BasePhotoPreviewActivity.KEY_PHOTOS, selected);
 			data.putExtras(bundle);
 			setResult(RESULT_OK, data);
 		}
@@ -160,12 +185,12 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 */
 	private void preview() {
 		Bundle bundle = new Bundle();
-		bundle.putSerializable("photos", selected);
-		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
+		bundle.putSerializable(BasePhotoPreviewActivity.KEY_PHOTOS, selected);
+		startActivity(PhotoPreviewActivity.class, bundle);
 	}
 
 	private void album() {
-		if (layoutAlbum.getVisibility() == View.GONE) {
+		if (lvAlbum.getVisibility() == View.GONE) {
 			popAlbum();
 		} else {
 			hideAlbum();
@@ -176,18 +201,20 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 * 弹出相册列表
 	 */
 	private void popAlbum() {
-		layoutAlbum.setVisibility(View.VISIBLE);
-		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current).setLinearInterpolator().startAnimation(
-				layoutAlbum);
+        lvAlbum.setVisibility(View.VISIBLE);
+		new AnimationUtil(getApplicationContext(), R.anim.translate_up_current)
+                .setLinearInterpolator()
+                .startAnimation(lvAlbum);
 	}
 
 	/**
 	 * 隐藏相册列表
 	 */
 	private void hideAlbum() {
-		new AnimationUtil(getApplicationContext(), R.anim.translate_down).setLinearInterpolator().startAnimation(
-				layoutAlbum);
-		layoutAlbum.setVisibility(View.GONE);
+		new AnimationUtil(getApplicationContext(), R.anim.translate_down)
+                .setLinearInterpolator()
+                .startAnimation(lvAlbum);
+        lvAlbum.setVisibility(View.GONE);
 	}
 
 	/**
@@ -195,7 +222,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 */
 	private void reset() {
 		selected.clear();
-		tvPreview.setText("预览");
+		tvPreview.setText(getResources().getString(R.string.psl_preview));
 		tvPreview.setEnabled(false);
 	}
 
@@ -206,22 +233,22 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	 */
 	@Override
 	public void onItemClick(int position) {
-//		if (selected.size() >= maxSelectable)  {
-//			if (photoData == null || photoData.size() == 0) return;
-//			PhotoModel pm = photoData.get(position);
-//			if (pm != null && !pm.isEnabled()) {
-//				Toast.makeText(this, "你最多只能选择9张图片", Toast.LENGTH_SHORT).show();
-//				return;
-//			}
-//		}
 		Bundle bundle = new Bundle();
-		if (tvAlbum.getText().toString().equals(RECENT_PHOTO)) {
-			bundle.putInt("position", position - 1);
-		} else {
-			bundle.putInt("position", position);
-		}
-		bundle.putString("album", tvAlbum.getText().toString());
-		CommonUtil.launchActivity(this, PhotoPreviewActivity.class, bundle);
+		bundle.putInt(BasePhotoPreviewActivity.KEY_POSITION, position);
+		bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbum.getText().toString());
+		startActivity(PhotoPreviewActivity.class, bundle);
+	}
+
+	/**
+	 * 跳转
+	 * @param activity
+	 * @param bundle
+	 */
+	public void startActivity(Class<?> activity, Bundle bundle) {
+		Intent intent = new Intent(this, activity);
+		intent.putExtras(bundle);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		startActivity(intent);
 	}
 
 	/**
@@ -239,51 +266,22 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		} else {
 			selected.remove(photoModel);
 		}
-		tvPreview.setText("预览(" + selected.size() + ")");   //修改预览数量
+		// 修改预览数量
+		tvPreview.setText(getResources().getString(R.string.psl_preview) + "(" + selected.size() + ")");
 
 		if (selected.isEmpty()) {
 			tvPreview.setEnabled(false);
-			tvPreview.setText("预览");
+			tvPreview.setText(getResources().getString(R.string.psl_preview));
 		}
-
-//		if (selected.size() >= maxSelectable) {
-//            if (photoData == null || photoData.size() == 0) return;
-//			isReset = true;
-//
-//			for (PhotoModel pd : photoData) {
-//				if (pd == null) continue;
-//				String path = pd.getOriginalPath();
-//				if (TextUtils.isEmpty(path)) continue;
-//				for (PhotoModel selectPd : selected) {
-//					if (selectPd == null) continue;
-//					if (path.equals(selectPd.getOriginalPath())) {
-//						pd.setEnabled(true);
-//						break;
-//					} else {
-//						pd.setEnabled(false);
-//					}
-//				}
-//			}
-//			photoAdapter.update(photoData);
-//		} else {
-//			if (isReset) {
-//				for (PhotoModel pd : photoData) {
-//					if (pd == null) continue;
-//					pd.setEnabled(true);
-//				}
-//				photoAdapter.update(photoData);
-//
-//				isReset = false;
-//			}
-//		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (layoutAlbum.getVisibility() == View.VISIBLE) {
+		if (lvAlbum.getVisibility() == View.VISIBLE) {
 			hideAlbum();
-		} else
+		} else {
 			super.onBackPressed();
+		}
 	}
 
 	/**
@@ -299,10 +297,11 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		AlbumModel current = (AlbumModel) parent.getItemAtPosition(position);
 		for (int i = 0; i < parent.getCount(); i++) {
 			AlbumModel album = (AlbumModel) parent.getItemAtPosition(i);
-			if (i == position)
+			if (i == position) {
 				album.setCheck(true);
-			else
+			} else {
 				album.setCheck(false);
+			}
 		}
 		albumAdapter.notifyDataSetChanged();
 		hideAlbum();
@@ -310,52 +309,53 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		tvTitle.setText(current.getName());
 
 		// 更新照片列表
-		if (current.getName().equals(RECENT_PHOTO))
+		if (current.getName().equals(RECENT_PHOTO)) {
 			photoSelectorDomain.getRecentPhoto(recentListener);
-		else
-			photoSelectorDomain.getAlbumPhoto(current.getName(), recentListener); // 获取选中相册的照片
-	}
-
-	/**
-	 * 设置最多可选择图片的数量
-	 *
-	 * @param maxSelectable
-	 */
-	public void setMaxSelectable(int maxSelectable) {
-		this.maxSelectable = maxSelectable;
+		} else {
+			// 获取选中相册的照片
+			photoSelectorDomain.getAlbumPhoto(current.getName(), recentListener);
+		}
 	}
 
 	/**
 	 * 获取本地图库照片回调
 	 */
 	public interface OnLocalRecentListener {
-		public void onPhotoLoaded(List<PhotoModel> photos);
+		/**
+		 * 获取本地图片
+		 *
+		 * @param photos
+		 */
+		void onPhotoLoaded(List<PhotoModel> photos);
 	}
 
 	/**
 	 * 获取本地相册信息回调
 	 */
 	public interface OnLocalAlbumListener {
-		public void onAlbumLoaded(List<AlbumModel> albums);
+		/**
+		 * 获取本地相册
+		 *
+		 * @param albums
+		 */
+		void onAlbumLoaded(List<AlbumModel> albums);
 	}
 
 	private OnLocalAlbumListener albumListener = new OnLocalAlbumListener() {
 		@Override
 		public void onAlbumLoaded(List<AlbumModel> albums) {
-			albumAdapter.update(albums);
+			albumAdapter.notifyDataSetChanged(albums);
 		}
 	};
 
 	private OnLocalRecentListener recentListener = new OnLocalRecentListener() {
 		@Override
 		public void onPhotoLoaded(List<PhotoModel> photos) {
-			if (tvAlbum.getText().equals(RECENT_PHOTO)) {
-				photos.add(0, new PhotoModel());
-			}
 			photoData.clear();
 			photoData.addAll(photos);
-			photoAdapter.update(photoData);
-			gvPhotos.smoothScrollToPosition(0); // 滚动到顶端
+			photoAdapter.notifyDataSetChanged();
+			// 滚动到顶端
+			gvPhotos.smoothScrollToPosition(0);
 			reset();
 		}
 	};

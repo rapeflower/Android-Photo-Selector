@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,19 +14,28 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lily.photo.selector.R;
 import com.lily.photo.selector.model.PhotoModel;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.Random;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:55
+ * @Describe 照片控件
+ *
+ */
 public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, OnClickListener {
 
 	private ImageView ivPhoto;
 	private CheckBox cbPhoto;
+	private Context mContext;
 	private onPhotoItemCheckedListener listener;
 	private PhotoModel photo;
-	private boolean isCheckAll;
+	private boolean isCheckChange;
 	private onItemClickListener l;
 	private int position;
 
@@ -33,23 +43,35 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		super(context);
 	}
 
+	public PhotoItem(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+
+	public PhotoItem(Context context, AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
+	}
+
 	public PhotoItem(Context context, onPhotoItemCheckedListener listener) {
 		this(context);
-		LayoutInflater.from(context).inflate(R.layout.layout_photoitem, this, true);
+		mContext = context;
+		LayoutInflater.from(context).inflate(R.layout.item_photo, this, true);
 		this.listener = listener;
 
-		setOnClickListener(this);
-		ivPhoto = (ImageView) findViewById(R.id.iv_photo_lpsi);
-		cbPhoto = (CheckBox) findViewById(R.id.cb_photo_lpsi);
+		ivPhoto = findViewById(R.id.iv_photo_selector);
+		cbPhoto = findViewById(R.id.cb_photo_selector);
 
-		cbPhoto.setOnCheckedChangeListener(this); // CheckBox选中状态改变监听器
+		// CheckBox选中状态改变监听器
+		cbPhoto.setOnCheckedChangeListener(this);
+		setOnClickListener(this);
 	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (!isCheckAll) {
-			listener.onCheckedChanged(photo, buttonView, isChecked); // 调用主界面回调函数
+		if (listener != null && !isCheckChange) {
+            // 调用主界面回调函数
+			listener.onCheckedChanged(photo, buttonView, isChecked);
 		}
+		android.util.Log.w("log", " isChecked = " + isChecked);
 		// 让图片变暗或者变亮
 		if (isChecked) {
 			setDrawingEnable();
@@ -62,7 +84,6 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 
 	/**
 	 * 设置路径下的图片对应的缩略图
-	 *
 	 * @param photo
 	 */
 	public void setImageDrawable(final PhotoModel photo) {
@@ -70,7 +91,12 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				ImageLoader.getInstance().displayImage("file://" + photo.getOriginalPath(), ivPhoto);
+				    Glide.with(mContext).load("file://" + photo.getOriginalPath())
+							.placeholder(R.drawable.ic_picture_loading)
+							.error(R.drawable.ic_picture_loadfailed)
+							.diskCacheStrategy(DiskCacheStrategy.SOURCE)
+							.crossFade()
+							.into(ivPhoto);
 			}
 		}, new Random().nextInt(10));
 	}
@@ -85,13 +111,13 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 		if (photo == null) {
 			return;
 		}
-		isCheckAll = true;
+		isCheckChange = true;
 		cbPhoto.setChecked(selected);
-		isCheckAll = false;
+		isCheckChange = false;
 	}
 
 	public void setCanContinueChecked(boolean canChecked) {
-		cbPhoto.setEnabled(canChecked);
+		//cbPhoto.setEnabled(canChecked);
 	}
 
 	public void setOnClickListener(onItemClickListener l, int position) {
@@ -101,22 +127,23 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener, 
 
 	@Override
 	public void onClick(View v) {
-		if (l != null)
+		if (l != null) {
 			l.onItemClick(position);
+		}
 	}
 
 	/**
 	 * 图片Item选中事件监听器
 	 */
-	public static interface onPhotoItemCheckedListener {
-		public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked);
+	public interface onPhotoItemCheckedListener {
+		void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked);
 	}
 
 	/**
 	 * 图片点击事件
 	 */
 	public interface onItemClickListener {
-		public void onItemClick(int position);
+		void onItemClick(int position);
 	}
 
 }

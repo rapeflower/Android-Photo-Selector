@@ -14,6 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/***********
+ *
+ * @Author rape flower
+ * @Date 2018-02-01 15:19
+ * @Describe 相册管理类
+ *
+ */
 public class AlbumManager {
 
 	private ContentResolver resolver;
@@ -66,8 +73,9 @@ public class AlbumManager {
 		AlbumModel current = new AlbumModel("最近照片", 0, cursor.getString(cursor.getColumnIndex(ImageColumns.DATA)), true);
 		albums.add(current);
 		do {
-			if (cursor.getInt(cursor.getColumnIndex(ImageColumns.SIZE)) < 1024 * 10)
+			if (cursor.getInt(cursor.getColumnIndex(ImageColumns.SIZE)) < 1024 * 10) {
 				continue;
+			}
 
 			current.increaseCount();
 			String name = cursor.getString(cursor.getColumnIndex(ImageColumns.BUCKET_DISPLAY_NAME));
