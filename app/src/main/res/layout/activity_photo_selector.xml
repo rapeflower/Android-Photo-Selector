@@ -2,50 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white" >
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:id="@+id/rl_head_ar"
         android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:layout_alignParentTop="true">
+        android:layout_height="?android:actionBarSize">
 
-        <LinearLayout
-            android:id="@+id/bv_back_lh"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
+        <ImageView
+            android:id="@+id/iv_back_vb"
+            android:layout_width="@dimen/dimen_28px"
+            android:layout_height="@dimen/dimen_48px"
+            android:layout_marginLeft="@dimen/dimen_28px"
             android:layout_centerVertical="true"
-            android:clickable="true"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/iv_back_vb"
-                android:layout_width="@dimen/dimen_28px"
-                android:layout_height="@dimen/dimen_48px"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimen_28px"
-                android:src="@drawable/ic_title_btn_back" />
-
-            <TextView
-                android:id="@+id/tv_title_vb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimen_10px"
-                android:text="@string/psl_go_back"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size_16"
-                android:visibility="gone"/>
-
-        </LinearLayout>
+            android:src="@drawable/ic_title_btn_back" />
 
         <TextView
             android:id="@+id/tv_title_lh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
             android:text="@string/psl_recent_photos"
             android:textColor="@android:color/black"
             android:textSize="@dimen/font_size_18" />
@@ -109,18 +85,18 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#DDDDDD" />
-        <RelativeLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_album_ar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_20px"
-                android:gravity="center"
                 android:text="@string/psl_recent_photos"
                 android:textColor="@drawable/btn_black_textcolor_selector"
                 android:textSize="@dimen/font_size_13" />
@@ -128,13 +104,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginBottom="@dimen/dimen_negative_6px"
                 android:layout_marginLeft="@dimen/dimen_negative_6px"
-                android:layout_toRightOf="@+id/tv_album_ar"
                 android:background="@drawable/ic_spinner_black"
                 android:scaleType="centerInside" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_line_ar"

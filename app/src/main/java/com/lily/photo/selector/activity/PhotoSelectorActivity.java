@@ -121,7 +121,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		lvAlbum.setOnItemClickListener(this);
 
 		// 返回
-		findViewById(R.id.bv_back_lh).setOnClickListener(this);
+		findViewById(R.id.iv_back_vb).setOnClickListener(this);
 
 		// 更新最近照片
 		photoSelectorDomain.getRecentPhoto(recentListener);
@@ -142,7 +142,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			album();
 		} else if (v.getId() == R.id.tv_preview_ar) {
 			preview();
-		} else if (v.getId() == R.id.bv_back_lh) {
+		} else if (v.getId() == R.id.iv_back_vb) {
 			finish();
 		}
 	}

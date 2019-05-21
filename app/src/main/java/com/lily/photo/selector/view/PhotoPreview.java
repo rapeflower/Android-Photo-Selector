@@ -24,7 +24,7 @@ import com.lily.photo.selector.polites.GestureImageView;
  * @Describe 预览照片的控件
  *
  */
-public class PhotoPreview extends LinearLayout {
+public class PhotoPreview extends LinearLayout implements View.OnClickListener {
 
 	private ProgressBar pbLoading;
 	private GestureImageView ivContent;
@@ -39,14 +39,7 @@ public class PhotoPreview extends LinearLayout {
 		pbLoading = findViewById(R.id.pb_loading_vpp);
 		ivContent = findViewById(R.id.iv_content_vpp);
 
-        ivContent.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (v.getId() == R.id.iv_content_vpp && mOnClickListener != null) {
-					mOnClickListener.onClick(ivContent);
-				}
-			}
-		});
+        ivContent.setOnClickListener(this);
 	}
 
 	public PhotoPreview(Context context, AttributeSet attrs, int defStyle) {
@@ -93,4 +86,10 @@ public class PhotoPreview extends LinearLayout {
 		this.mOnClickListener = listener;
 	}
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_content_vpp && mOnClickListener != null) {
+            mOnClickListener.onClick(ivContent);
+        }
+    }
 }

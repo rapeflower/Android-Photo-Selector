@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_200px">
+    android:layout_height="@dimen/dimen_200px"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <FrameLayout
         android:id="@+id/fl_content_left"
         android:layout_width="@dimen/dimen_160px"
-        android:layout_height="@dimen/dimen_160px"
-        android:layout_centerVertical="true" >
+        android:layout_height="@dimen/dimen_160px">
 
         <ImageView
             android:layout_width="match_parent"
@@ -27,9 +28,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fl_content_left"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical"
         android:paddingLeft="@dimen/dimen_10px" >
 
         <LinearLayout
@@ -61,4 +59,4 @@
             android:src="@drawable/ic_choice_green" />
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

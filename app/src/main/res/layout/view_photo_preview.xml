@@ -13,10 +13,9 @@
 
     <com.lily.photo.selector.polites.GestureImageView
         android:id="@+id/iv_content_vpp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         gesture-image:max-scale="8.0"
-        gesture-image:min-scale="0.75" />
+        gesture-image:min-scale="0.5" />
 
 </FrameLayout>
