@@ -92,8 +92,8 @@ public class PhotoAdapter extends BaseAdapter{
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_photo, null);
             holder = new ViewHolder();
-            holder.photoView = (ImageView) convertView.findViewById(R.id.iv_photo_selector);
-            holder.cbSelect = (CheckBox) convertView.findViewById(R.id.cb_photo_selector);
+            holder.photoView = convertView.findViewById(R.id.iv_photo_selector);
+            holder.cbSelect = convertView.findViewById(R.id.cb_photo_selector);
             setImageLayoutParams(holder.photoView);
             convertView.setTag(holder);
         } else {

@@ -25,8 +25,6 @@ import com.lily.photo.selector.model.PhotoModel;
 import com.lily.photo.selector.utils.AnimationUtil;
 import com.lily.photo.selector.utils.CommonUtil;
 import com.lily.photo.selector.utils.PhotoSelector;
-import com.lily.photo.selector.view.PhotoItem.onItemClickListener;
-import com.lily.photo.selector.view.PhotoItem.onPhotoItemCheckedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +36,7 @@ import java.util.List;
  * @Describe 选择图片
  *
  */
-public class PhotoSelectorActivity extends Activity implements onItemClickListener, onPhotoItemCheckedListener,
-        OnItemClickListener, OnClickListener {
+public class PhotoSelectorActivity extends Activity implements OnItemClickListener, OnClickListener {
 
 	public static final int REQUEST_PHOTO = 0;
 	private static final int REQUEST_CAMERA = 1;
@@ -97,18 +94,11 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 					} else {
 						selected.add(photoModel);
 					}
-					tvPreview.setEnabled(true);
 				} else {
 					selected.remove(photoModel);
 				}
 
-				//修改预览数量
-				tvPreview.setText(getResources().getString(R.string.psl_preview) + "(" + selected.size() + ")");
-
-				if (selected.isEmpty()) {
-					tvPreview.setEnabled(false);
-					tvPreview.setText(getResources().getString(R.string.psl_preview));
-				}
+				updatePreview();
 			}
 
 			@Override
@@ -199,6 +189,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		startActivity(PhotoPreviewActivity.class, bundle);
 	}
 
+    /**
+     * 相册
+     */
 	private void album() {
 		if (lvAlbum.getVisibility() == View.GONE) {
 			popAlbum();
@@ -237,19 +230,6 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	}
 
 	/**
-	 * 点击查看照片
-	 *
-	 * @param position
-	 */
-	@Override
-	public void onItemClick(int position) {
-		Bundle bundle = new Bundle();
-		bundle.putInt(BasePhotoPreviewActivity.KEY_POSITION, position);
-		bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbumAr.getText().toString());
-		startActivity(PhotoPreviewActivity.class, bundle);
-	}
-
-	/**
 	 * 跳转
 	 * @param activity
 	 * @param bundle
@@ -261,29 +241,18 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		startActivity(intent);
 	}
 
-	/**
-	 * 照片选中状态改变之后
-	 *
-	 * @param photoModel
-	 * @param buttonView
-	 * @param isChecked
-	 */
-	@Override
-	public void onCheckedChanged(PhotoModel photoModel, CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-			selected.add(photoModel);
-			tvPreview.setEnabled(true);
-		} else {
-			selected.remove(photoModel);
-		}
-		// 修改预览数量
-		tvPreview.setText(getResources().getString(R.string.psl_preview) + "(" + selected.size() + ")");
-
-		if (selected.isEmpty()) {
-			tvPreview.setEnabled(false);
-			tvPreview.setText(getResources().getString(R.string.psl_preview));
-		}
-	}
+    /**
+     * 修改预览数量
+     */
+	private void updatePreview() {
+        if (selected.isEmpty()) {
+            tvPreview.setEnabled(false);
+            tvPreview.setText(getResources().getString(R.string.psl_preview));
+        } else {
+            tvPreview.setEnabled(true);
+            tvPreview.setText(getResources().getString(R.string.psl_preview) + "(" + selected.size() + ")");
+        }
+    }
 
 	@Override
 	public void onBackPressed() {
@@ -351,6 +320,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		void onAlbumLoaded(List<AlbumModel> albums);
 	}
 
+    /**
+     * 本地相册 监听
+     */
 	private OnLocalAlbumListener albumListener = new OnLocalAlbumListener() {
 		@Override
 		public void onAlbumLoaded(List<AlbumModel> albums) {
@@ -358,6 +330,9 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 	};
 
+    /**
+     * "最近照片" 监听
+     */
 	private OnLocalRecentListener recentListener = new OnLocalRecentListener() {
 		@Override
 		public void onPhotoLoaded(List<PhotoModel> photos) {
