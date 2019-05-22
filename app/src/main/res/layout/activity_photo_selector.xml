@@ -86,29 +86,26 @@
             android:layout_height="1px"
             android:background="#DDDDDD" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_album_ar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_20px"
             android:layout_centerVertical="true"
-            android:orientation="horizontal">
+            android:text="@string/psl_recent_photos"
+            android:textColor="@drawable/btn_black_textcolor_selector"
+            android:textSize="@dimen/font_size_13" />
 
-            <TextView
-                android:id="@+id/tv_album_ar"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_20px"
-                android:text="@string/psl_recent_photos"
-                android:textColor="@drawable/btn_black_textcolor_selector"
-                android:textSize="@dimen/font_size_13" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_negative_6px"
-                android:layout_marginLeft="@dimen/dimen_negative_6px"
-                android:background="@drawable/ic_spinner_black"
-                android:scaleType="centerInside" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_album_ar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_negative_6px"
+            android:layout_marginLeft="@dimen/dimen_negative_6px"
+            android:layout_toRightOf="@id/tv_album_ar"
+            android:layout_alignBottom="@id/tv_album_ar"
+            android:background="@drawable/ic_spinner_black"
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/tv_line_ar"

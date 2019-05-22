@@ -11,6 +11,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +48,8 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	private GridView gvPhotos;
 	private ListView lvAlbum;
 	private Button btnOk;
-	private TextView tvAlbum, tvPreview, tvTitle;
+	private TextView tvAlbumAr, tvPreview, tvTitle;
+	private ImageView ivAlbumAr;
 	private PhotoSelectorManager photoSelectorDomain;
 	private PhotoAdapter photoAdapter;
 	private AlbumAdapter albumAdapter;
@@ -72,11 +74,13 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		gvPhotos = findViewById(R.id.gv_photos_ar);
 		lvAlbum = findViewById(R.id.lv_album_ar);
 		btnOk = findViewById(R.id.btn_right_lh);
-		tvAlbum = findViewById(R.id.tv_album_ar);
+        tvAlbumAr = findViewById(R.id.tv_album_ar);
+        ivAlbumAr = findViewById(R.id.iv_album_ar);
 		tvPreview = findViewById(R.id.tv_preview_ar);
 
 		btnOk.setOnClickListener(this);
-		tvAlbum.setOnClickListener(this);
+        tvAlbumAr.setOnClickListener(this);
+        ivAlbumAr.setOnClickListener(this);
 		tvPreview.setOnClickListener(this);
 
 		photoAdapter = new PhotoAdapter(PhotoSelectorActivity.this, photoData);
@@ -111,7 +115,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 			public void onShowPicture(String path, int position) {
 				Bundle bundle = new Bundle();
 				bundle.putInt(BasePhotoPreviewActivity.KEY_POSITION, position);
-				bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbum.getText().toString());
+				bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbumAr.getText().toString());
 				startActivity(PhotoPreviewActivity.class, bundle);
 			}
 		});
@@ -135,16 +139,22 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.btn_right_lh) {
-			// 选完照片
-			ok();
-		} else if (v.getId() == R.id.tv_album_ar) {
-			album();
-		} else if (v.getId() == R.id.tv_preview_ar) {
-			preview();
-		} else if (v.getId() == R.id.iv_back_vb) {
-			finish();
-		}
+	    switch (v.getId()) {
+	        case R.id.btn_right_lh:
+                // 选完照片
+                ok();
+	            break;
+            case R.id.tv_album_ar:
+            case R.id.iv_album_ar:
+                album();
+                break;
+            case R.id.tv_preview_ar:
+                preview();
+                break;
+            case R.id.iv_back_vb:
+                finish();
+                break;
+        }
 	}
 
 	/**
@@ -235,7 +245,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 	public void onItemClick(int position) {
 		Bundle bundle = new Bundle();
 		bundle.putInt(BasePhotoPreviewActivity.KEY_POSITION, position);
-		bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbum.getText().toString());
+		bundle.putString(BasePhotoPreviewActivity.KEY_ALBUM, tvAlbumAr.getText().toString());
 		startActivity(PhotoPreviewActivity.class, bundle);
 	}
 
@@ -305,7 +315,7 @@ public class PhotoSelectorActivity extends Activity implements onItemClickListen
 		}
 		albumAdapter.notifyDataSetChanged();
 		hideAlbum();
-		tvAlbum.setText(current.getName());
+        tvAlbumAr.setText(current.getName());
 		tvTitle.setText(current.getName());
 
 		// 更新照片列表
