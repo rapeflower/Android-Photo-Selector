@@ -78,9 +78,9 @@ public class BasePhotoPreviewActivity extends Activity implements OnPageChangeLi
 		@Override
 		public View instantiateItem(final ViewGroup container, final int position) {
 			PhotoPreview photoPreview = new PhotoPreview(BasePhotoPreviewActivity.this);
-			container.addView(photoPreview);
 			photoPreview.loadImage(photos.get(position));
 			photoPreview.setOnClickListener(photoItemClickListener);
+            container.addView(photoPreview);
 			return photoPreview;
 		}
 
